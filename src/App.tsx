@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 import GroupDiscussionDetails from './GroupDiscussionDetails';
 import BoxCricketDetails from './BoxCricketDetails';
 import LinuxQuizDetails from './LinuxQuizDetails';
+import TechnicalMarathonDetails from './TechnicalMarathonDetails';
 
 const events = [
   {
@@ -51,7 +52,7 @@ type FormData = {
   teamMembers: string;
 };
 
-function EventsSection({ onGDMoreDetails, onBoxMoreDetails, onLinuxMoreDetails }: { onGDMoreDetails: () => void, onBoxMoreDetails: () => void, onLinuxMoreDetails: () => void }) {
+function EventsSection({ onGDMoreDetails, onBoxMoreDetails, onLinuxMoreDetails, onTechMarathonMoreDetails }: { onGDMoreDetails: () => void, onBoxMoreDetails: () => void, onLinuxMoreDetails: () => void, onTechMarathonMoreDetails: () => void }) {
   return (
     <section id="events" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -84,6 +85,10 @@ function EventsSection({ onGDMoreDetails, onBoxMoreDetails, onLinuxMoreDetails }
                 </button>
               ) : event.title === 'Quizeme Linux' ? (
                 <button className="w-full btn-primary" onClick={onLinuxMoreDetails}>
+                  More Details
+                </button>
+              ) : event.title === 'Technical Marathon' ? (
+                <button className="w-full btn-primary" onClick={onTechMarathonMoreDetails}>
                   More Details
                 </button>
               ) : (
@@ -165,6 +170,7 @@ function App() {
         onGDMoreDetails={() => navigate('/gd-rules')} 
         onBoxMoreDetails={() => navigate('/box-rules')} 
         onLinuxMoreDetails={() => navigate('/linux-rules')}
+        onTechMarathonMoreDetails={() => navigate('/technical-marathon')}
       />
       {/* Registration Section */}
       <section id="registration" className="py-20 px-4">
@@ -306,6 +312,7 @@ function AppRoutes() {
         <Route path="/gd-rules" element={<GroupDiscussionDetails />} />
         <Route path="/box-rules" element={<BoxCricketDetails />} />
         <Route path="/linux-rules" element={<LinuxQuizDetails />} />
+        <Route path="/technical-marathon" element={<TechnicalMarathonDetails />} />
       </Routes>
     </Router>
   );
