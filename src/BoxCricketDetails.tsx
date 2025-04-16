@@ -6,7 +6,6 @@ const BoxCricketDetails: React.FC = () => {
   return (
     <div className="min-h-screen theme-bg theme-text flex items-center justify-center py-10">
       <div className="max-w-2xl w-full mx-auto p-6 glass-card rounded-2xl">
-        <button className="mb-6 btn-secondary" onClick={() => navigate(-1)}>← Return</button>
         <h1 className="text-3xl font-bold text-center mb-2 gradient-text">Box Cricket</h1>
         <p className="text-center mb-2">Date: To Be Announced</p>
         <p className="text-center mb-6"><strong>Details:</strong> Further details related to time and venue will be shared soon.</p>
@@ -28,6 +27,7 @@ const BoxCricketDetails: React.FC = () => {
           <li>Atharv Shinde – 9579100166</li>
           <li>Harshad Patil – 7058937117</li>
         </ul>
+        <button className="mt-8 w-full btn-primary" style={{background: 'linear-gradient(to right, #2563eb, #4f46e5)'}} onClick={() => navigate(-1)}>← Return</button>
       </div>
     </div>
   );

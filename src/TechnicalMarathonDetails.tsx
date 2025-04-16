@@ -6,7 +6,6 @@ const TechnicalMarathonDetails: React.FC = () => {
   return (
     <div className="min-h-screen theme-bg theme-text flex items-center justify-center py-10">
       <div className="w-full max-w-4xl flex flex-row gap-8 p-8 glass-card rounded-2xl items-center">
-        <div className="w-1/3 h-72 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 opacity-80 shadow-lg flex-shrink-0" />
         <div className="flex-1">
           <button className="mb-6 btn-secondary" onClick={() => navigate(-1)}>← Return</button>
           <h1 className="text-3xl font-bold mb-2 gradient-text">Technical Marathon</h1>
@@ -24,6 +23,7 @@ const TechnicalMarathonDetails: React.FC = () => {
           <ul className="list-disc list-inside mb-4 theme-text-secondary">
             <li>Event Coordinator: To Be Announced</li>
           </ul>
+          <button className="mt-8 w-full btn-primary" style={{background: 'linear-gradient(to right, #2563eb, #4f46e5)'}} onClick={() => navigate(-1)}>← Return</button>
         </div>
       </div>
     </div>

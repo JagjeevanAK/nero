@@ -6,7 +6,6 @@ const GroupDiscussionDetails: React.FC = () => {
   return (
     <div className="min-h-screen theme-bg theme-text flex items-center justify-center py-10">
       <div className="max-w-2xl w-full mx-auto p-6 glass-card rounded-2xl">
-        <div className="w-full h-20 rounded-xl mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-80 shadow-lg" />
         <button className="mb-6 btn-secondary" onClick={() => navigate(-1)}>← Return</button>
         <h1 className="text-3xl font-bold text-center mb-2 gradient-text">Group Discussion (GD)</h1>
         <p className="text-center mb-2">30 April 2025</p>
@@ -53,6 +52,7 @@ const GroupDiscussionDetails: React.FC = () => {
           <li>AISA (Artificial Intellignece and Data Science Students Association) reserves the right to amend rules if necessary.</li>
           <li>In case of disputes, the decision of the event coordinator will be final.</li>
         </ul>
+        <button className="mt-8 w-full btn-primary" style={{background: 'linear-gradient(to right, #2563eb, #4f46e5)'}} onClick={() => navigate(-1)}>← Return</button>
       </div>
     </div>
   );
