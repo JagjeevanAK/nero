@@ -169,8 +169,8 @@ function App() {
         onTechMarathonMoreDetails={() => navigate('/technical-marathon')}
       />
       {/* Registration Section */}
-      <section id="registration" className="py-20 px-4">
-        <div className="max-w-2xl mx-auto">
+      <section id="registration" className="min-h-screen w-full py-20 px-4 flex items-center justify-center">
+        <div className="max-w-2xl w-full">
           <h2 className="text-4xl font-bold text-center mb-16 gradient-text">
             Register Now
           </h2>

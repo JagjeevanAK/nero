@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const LinuxQuizDetails: React.FC = () => {
   const navigate = useNavigate();
+  useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
     <div className="min-h-screen theme-bg theme-text py-8 px-2 md:px-10 flex items-center justify-center">
       <div className="w-full max-w-3xl glass-card rounded-2xl flex flex-col gap-6 p-6 md:p-12">
