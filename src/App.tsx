@@ -52,6 +52,7 @@ type FormData = {
   teamMembers?: string;
   yearOfStudy: string;
   boxCricketPlayers?: string[];
+  referenceCode?: string;
 };
 
 function EventsSection({ onGDMoreDetails, onBoxMoreDetails, onLinuxMoreDetails, onTechMarathonMoreDetails }: { onGDMoreDetails: () => void, onBoxMoreDetails: () => void, onLinuxMoreDetails: () => void, onTechMarathonMoreDetails: () => void }) {
@@ -304,6 +305,15 @@ function App() {
                 />
               </div>
             )}
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Reference Code (Optional)</label>
+              <input
+                {...register('referenceCode')}
+                className="form-input"
+                placeholder="Enter reference code if any"
+              />
+            </div>
 
             <div className="glass-card p-4 rounded-lg">
               <p className="text-sm font-medium">Entry Fee:</p>
