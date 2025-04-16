@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 const TechnicalMarathonDetails: React.FC = () => {
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen theme-bg theme-text flex items-center justify-center py-10">
-      <div className="w-full max-w-4xl flex flex-row gap-8 p-8 glass-card rounded-2xl items-center">
+    <div className="min-h-screen theme-bg theme-text py-10 px-4 flex flex-col justify-between">
+      <div className="w-full max-w-6xl mx-auto p-10 glass-card rounded-2xl min-h-[80vh] flex flex-col md:flex-row gap-8 items-start">
         <div className="flex-1">
           <button className="mb-6 btn-secondary" onClick={() => navigate(-1)}>← Return</button>
           <h1 className="text-3xl font-bold mb-2 gradient-text">Technical Marathon</h1>

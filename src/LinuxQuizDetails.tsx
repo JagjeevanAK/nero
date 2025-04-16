@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 const LinuxQuizDetails: React.FC = () => {
   const navigate = useNavigate();
   return (
-    <div className="min-h-screen theme-bg theme-text flex items-center justify-center py-10">
-      <div className="max-w-2xl w-full mx-auto p-6 glass-card rounded-2xl">
+    <div className="min-h-screen theme-bg theme-text py-10 px-4 flex flex-col justify-between">
+      <div className="max-w-5xl w-full mx-auto p-10 glass-card rounded-2xl min-h-[80vh]">
         <button className="mb-6 btn-secondary" onClick={() => navigate(-1)}>← Return</button>
         <h1 className="text-3xl font-bold text-center mb-2 gradient-text">Quizeme Linux</h1>
         <p className="text-center mb-2">Date: To Be Announced</p>
