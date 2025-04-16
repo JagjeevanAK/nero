@@ -4,6 +4,7 @@ import { MessageCircle, Code2, Link as Linux, Ticket as Cricket, ChevronDown, In
 import { useForm } from 'react-hook-form';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import GroupDiscussionDetails from './GroupDiscussionDetails';
+import BoxCricketDetails from './BoxCricketDetails';
 
 const events = [
   {
@@ -49,7 +50,7 @@ type FormData = {
   teamMembers: string;
 };
 
-function EventsSection({ onGDMoreDetails }: { onGDMoreDetails: () => void }) {
+function EventsSection({ onGDMoreDetails, onBoxMoreDetails }: { onGDMoreDetails: () => void, onBoxMoreDetails: () => void }) {
   return (
     <section id="events" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -74,6 +75,10 @@ function EventsSection({ onGDMoreDetails }: { onGDMoreDetails: () => void }) {
               <p className="theme-text-secondary text-center mb-6">{event.description}</p>
               {event.title === 'Group Discussion (GD)' ? (
                 <button className="w-full btn-primary" onClick={onGDMoreDetails}>
+                  More Details
+                </button>
+              ) : event.title === 'Box Cricket' ? (
+                <button className="w-full btn-primary" onClick={onBoxMoreDetails}>
                   More Details
                 </button>
               ) : (
@@ -151,7 +156,10 @@ function App() {
           </motion.a>
         </div>
       </header>
-      <EventsSection onGDMoreDetails={() => navigate('/gd-rules')} />
+      <EventsSection 
+        onGDMoreDetails={() => navigate('/gd-rules')} 
+        onBoxMoreDetails={() => navigate('/box-rules')} 
+      />
       {/* Registration Section */}
       <section id="registration" className="py-20 px-4">
         <div className="max-w-2xl mx-auto">
@@ -290,6 +298,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/gd-rules" element={<GroupDiscussionDetails />} />
+        <Route path="/box-rules" element={<BoxCricketDetails />} />
       </Routes>
     </Router>
   );
