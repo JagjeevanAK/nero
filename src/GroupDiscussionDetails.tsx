@@ -3,6 +3,8 @@ import React from 'react';
 const GroupDiscussionDetails: React.FC = () => (
   <div className="min-h-screen theme-bg theme-text flex items-center justify-center py-10">
     <div className="max-w-2xl w-full mx-auto p-6 glass-card rounded-2xl">
+      {/* Horizontal rectangle at the top */}
+      <div className="w-full h-20 rounded-xl mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-80 shadow-lg" />
       <h1 className="text-3xl font-bold text-center mb-2 gradient-text">Group Discussion (GD)</h1>
       <p className="text-center mb-2">30 April 2025</p>
       <p className="text-center mb-6"><strong>Details:</strong> Further details related to time will be shared soon.</p>
@@ -45,7 +47,7 @@ const GroupDiscussionDetails: React.FC = () => (
 
       <h2 className="text-xl font-semibold mb-2">6. Miscellaneous</h2>
       <ul className="list-disc list-inside mb-4 theme-text-secondary">
-        <li>CESA (Computer Science Students Association) reserves the right to amend rules if necessary.</li>
+        <li>AISA (Artificial Intellignece and Data Science Students Association) reserves the right to amend rules if necessary.</li>
         <li>In case of disputes, the decision of the event coordinator will be final.</li>
       </ul>
     </div>
