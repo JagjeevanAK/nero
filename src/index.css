@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+
+  .light {
+    --bg-gradient: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --card-bg: rgba(255, 255, 255, 0.9);
+    --card-border: rgba(226, 232, 240, 0.6);
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --input-bg: rgba(255, 255, 255, 0.8);
+    --input-border: #e2e8f0;
+    --input-focus: #3b82f6;
+  }
+
+  .dark {
+    --bg-gradient: linear-gradient(to bottom right, #0f172a, #1e293b);
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --card-bg: rgba(255, 255, 255, 0.1);
+    --card-border: rgba(255, 255, 255, 0.2);
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    --input-bg: rgba(255, 255, 255, 0.05);
+    --input-border: rgba(255, 255, 255, 0.1);
+    --input-focus: #60a5fa;
+  }
+}
+
+@layer components {
+  .theme-bg {
+    background: var(--bg-gradient);
+  }
+
+  .theme-text {
+    color: var(--text-primary);
+  }
+
+  .theme-text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .glass-card {
+    @apply backdrop-blur-lg border shadow-lg transition-all duration-300;
+    background: var(--card-bg);
+    border-color: var(--card-border);
+    box-shadow: var(--card-shadow);
+  }
+
+  .glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow), 0 10px 20px -10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-2 rounded-lg outline-none transition-all duration-300;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+  }
+
+  .form-input:focus {
+    @apply ring-2;
+    border-color: var(--input-focus);
+    ring-color: var(--input-focus);
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 rounded-lg text-white font-medium transition-all duration-300
+           bg-gradient-to-r from-blue-600 to-indigo-600 
+           hover:from-blue-700 hover:to-indigo-700
+           focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-lg font-medium transition-all duration-300
+           bg-white/10 backdrop-blur-lg border border-white/20
+           hover:bg-white/20 focus:ring-2 focus:ring-white/20;
+  }
+}
