@@ -50,6 +50,7 @@ type FormData = {
   college: string;
   event: string;
   teamMembers: string;
+  yearOfStudy: string; // Added year of study
 };
 
 function EventsSection({ onGDMoreDetails, onBoxMoreDetails, onLinuxMoreDetails, onTechMarathonMoreDetails }: { onGDMoreDetails: () => void, onBoxMoreDetails: () => void, onLinuxMoreDetails: () => void, onTechMarathonMoreDetails: () => void }) {
@@ -223,6 +224,22 @@ function App() {
                 className="form-input"
               />
               {errors.college && <p className="text-red-400 text-sm mt-1">{errors.college.message}</p>}
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Year of Study*</label>
+              <select
+                {...register('yearOfStudy', { required: 'Please select your year of study' })}
+                className="form-input"
+              >
+                <option value="">--Select year--</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+                <option value="Other">Other</option>
+              </select>
+              {errors.yearOfStudy && <p className="text-red-400 text-sm mt-1">{errors.yearOfStudy.message}</p>}
             </div>
 
             <div>
