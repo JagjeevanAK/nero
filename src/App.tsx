@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MessageCircle, Code2, Link as Linux, Ticket as Cricket, ChevronDown, Instagram, Twitter, Facebook, Linkedin, Sun, Moon } from 'lucide-react';
+import { MessageCircle, Code2, Link as Linux, Ticket as Cricket, ChevronDown, Instagram, Twitter, Facebook, Linkedin } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import GroupDiscussionDetails from './GroupDiscussionDetails';
 
 const events = [
   {
@@ -48,25 +49,14 @@ type FormData = {
 };
 
 function App() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [selectedEvent, setSelectedEvent] = useState('');
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormData>();
   const [submissionStatus, setSubmissionStatus] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+  const [showGDModal, setShowGDModal] = useState(false);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark';
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.body.className = savedTheme;
-    }
+    document.body.className = '';
   }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    document.body.className = newTheme;
-    localStorage.setItem('theme', newTheme);
-  };
 
   const onSubmit = async (data: FormData) => {
     try {
@@ -88,14 +78,6 @@ function App() {
 
   return (
     <div className="min-h-screen theme-bg theme-text">
-      {/* Theme Toggle Button */}
-      <button
-        onClick={toggleTheme}
-        className="fixed top-4 right-4 z-50 p-3 rounded-full glass-card hover:scale-110 transition-transform duration-300"
-      >
-        {theme === 'light' ? <Moon className="w-6 h-6" /> : <Sun className="w-6 h-6" />}
-      </button>
-
       {/* Hero Section */}
       <header className="min-h-screen flex items-center justify-center text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072')] bg-cover bg-center opacity-30"></div>
@@ -150,14 +132,35 @@ function App() {
                 <h3 className="text-xl font-semibold mb-2 text-center">{event.title}</h3>
                 <p className="text-blue-500 text-center mb-4">₹{event.fee}</p>
                 <p className="theme-text-secondary text-center mb-6">{event.description}</p>
-                <button className="w-full btn-primary">
-                  More Details
-                </button>
+                {event.title === 'Group Discussion (GD)' ? (
+                  <button className="w-full btn-primary" onClick={() => setShowGDModal(true)}>
+                    More Details
+                  </button>
+                ) : (
+                  <button className="w-full btn-primary">
+                    More Details
+                  </button>
+                )}
               </motion.div>
             ))}
           </div>
         </div>
       </section>
+      {/* Modal for GD Details */}
+      {showGDModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
+          <div className="relative bg-transparent max-w-2xl w-full mx-4">
+            <button
+              className="absolute top-2 right-2 text-white text-2xl font-bold z-10"
+              onClick={() => setShowGDModal(false)}
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <GroupDiscussionDetails />
+          </div>
+        </div>
+      )}
 
       {/* Registration Section */}
       <section id="registration" className="py-20 px-4">
