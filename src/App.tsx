@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle, Code2, Link as Linux, Ticket as Cricket, ChevronDown, Instagram, Twitter, Facebook, Linkedin } from 'lucide-react';
 import { useForm } from 'react-hook-form';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import GroupDiscussionDetails from './GroupDiscussionDetails';
 
 const events = [
@@ -48,11 +49,52 @@ type FormData = {
   teamMembers: string;
 };
 
+function EventsSection({ onGDMoreDetails }: { onGDMoreDetails: () => void }) {
+  return (
+    <section id="events" className="py-20 px-4">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-4xl font-bold text-center mb-16 gradient-text">
+          Our Events
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {events.map((event) => (
+            <motion.div
+              key={event.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="glass-card rounded-xl p-6"
+            >
+              <div className="flex justify-center mb-4">
+                <event.icon className="w-12 h-12 text-blue-500" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2 text-center">{event.title}</h3>
+              <p className="text-blue-500 text-center mb-4">₹{event.fee}</p>
+              <p className="theme-text-secondary text-center mb-6">{event.description}</p>
+              {event.title === 'Group Discussion (GD)' ? (
+                <button className="w-full btn-primary" onClick={onGDMoreDetails}>
+                  More Details
+                </button>
+              ) : (
+                <button className="w-full btn-primary">
+                  More Details
+                </button>
+              )}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function App() {
   const [selectedEvent, setSelectedEvent] = useState('');
   const { register, handleSubmit, formState: { errors }, watch } = useForm<FormData>();
   const [submissionStatus, setSubmissionStatus] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [showGDModal, setShowGDModal] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     document.body.className = '';
@@ -109,59 +151,7 @@ function App() {
           </motion.a>
         </div>
       </header>
-
-      {/* Events Section */}
-      <section id="events" className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-bold text-center mb-16 gradient-text">
-            Our Events
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {events.map((event) => (
-              <motion.div
-                key={event.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5 }}
-                className="glass-card rounded-xl p-6"
-              >
-                <div className="flex justify-center mb-4">
-                  <event.icon className="w-12 h-12 text-blue-500" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2 text-center">{event.title}</h3>
-                <p className="text-blue-500 text-center mb-4">₹{event.fee}</p>
-                <p className="theme-text-secondary text-center mb-6">{event.description}</p>
-                {event.title === 'Group Discussion (GD)' ? (
-                  <button className="w-full btn-primary" onClick={() => setShowGDModal(true)}>
-                    More Details
-                  </button>
-                ) : (
-                  <button className="w-full btn-primary">
-                    More Details
-                  </button>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-      {/* Modal for GD Details */}
-      {showGDModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70">
-          <div className="relative bg-transparent max-w-2xl w-full mx-4">
-            <button
-              className="absolute top-2 right-2 text-white text-2xl font-bold z-10"
-              onClick={() => setShowGDModal(false)}
-              aria-label="Close"
-            >
-              ×
-            </button>
-            <GroupDiscussionDetails />
-          </div>
-        </div>
-      )}
-
+      <EventsSection onGDMoreDetails={() => navigate('/gd-rules')} />
       {/* Registration Section */}
       <section id="registration" className="py-20 px-4">
         <div className="max-w-2xl mx-auto">
@@ -294,4 +284,15 @@ function App() {
   );
 }
 
-export default App;
+function AppRoutes() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/gd-rules" element={<GroupDiscussionDetails />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default AppRoutes;
