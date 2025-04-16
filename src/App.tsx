@@ -159,6 +159,28 @@ function App() {
     );
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    // Get real form data here, e.g. from useForm or useState
+    const name = formData.name;
+    const email = formData.email;
+
+    const res = await fetch("/api/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email }),
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      alert("🎉 Welcome email sent!");
+    } else {
+      alert("Something went wrong 😢");
+      console.log(result.error);
+    }
+  };
+
   return (
     <div className="min-h-screen theme-bg theme-text">
       {/* Hero Section */}
