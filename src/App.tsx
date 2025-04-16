@@ -54,8 +54,8 @@ type FormData = {
 
 function EventsSection({ onGDMoreDetails, onBoxMoreDetails, onLinuxMoreDetails, onTechMarathonMoreDetails }: { onGDMoreDetails: () => void, onBoxMoreDetails: () => void, onLinuxMoreDetails: () => void, onTechMarathonMoreDetails: () => void }) {
   return (
-    <section id="events" className="py-20 px-4">
-      <div className="max-w-6xl mx-auto">
+    <section id="events" className="min-h-screen w-full py-20 px-4 flex items-center justify-center">
+      <div className="w-full max-w-7xl">
         <h2 className="text-4xl font-bold text-center mb-16 gradient-text">
           Our Events
         </h2>
@@ -67,35 +67,31 @@ function EventsSection({ onGDMoreDetails, onBoxMoreDetails, onLinuxMoreDetails, 
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="glass-card rounded-xl p-6"
+              className="glass-card rounded-xl p-6 flex flex-col h-full justify-between"
             >
-              <div className="flex justify-center mb-4">
-                <event.icon className="w-12 h-12 text-blue-500" />
+              <div>
+                <div className="flex justify-center mb-4">
+                  <event.icon className="w-12 h-12 text-blue-500" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2 text-center">{event.title}</h3>
+                <p className="text-blue-500 text-center mb-4">₹{event.fee}</p>
+                <p className="theme-text-secondary text-center mb-6">{event.description}</p>
               </div>
-              <h3 className="text-xl font-semibold mb-2 text-center">{event.title}</h3>
-              <p className="text-blue-500 text-center mb-4">₹{event.fee}</p>
-              <p className="theme-text-secondary text-center mb-6">{event.description}</p>
-              {event.title === 'Group Discussion (GD)' ? (
-                <button className="w-full btn-primary" onClick={onGDMoreDetails}>
-                  More Details
-                </button>
-              ) : event.title === 'Box Cricket' ? (
-                <button className="w-full btn-primary" onClick={onBoxMoreDetails}>
-                  More Details
-                </button>
-              ) : event.title === 'Quizeme Linux' ? (
-                <button className="w-full btn-primary" onClick={onLinuxMoreDetails}>
-                  More Details
-                </button>
-              ) : event.title === 'Technical Marathon' ? (
-                <button className="w-full btn-primary" onClick={onTechMarathonMoreDetails}>
-                  More Details
-                </button>
-              ) : (
-                <button className="w-full btn-primary">
-                  More Details
-                </button>
-              )}
+              <button className="w-full btn-primary mt-4" style={{ marginBottom: 20 }}
+                onClick={
+                  event.title === 'Group Discussion (GD)'
+                    ? onGDMoreDetails
+                    : event.title === 'Box Cricket'
+                    ? onBoxMoreDetails
+                    : event.title === 'Quizeme Linux'
+                    ? onLinuxMoreDetails
+                    : event.title === 'Technical Marathon'
+                    ? onTechMarathonMoreDetails
+                    : undefined
+                }
+              >
+                More Details
+              </button>
             </motion.div>
           ))}
         </div>
