@@ -7,7 +7,7 @@ const LinuxQuizDetails: React.FC = () => {
   return (
     <div className="min-h-screen theme-bg theme-text py-8 px-2 md:px-10 flex items-center justify-center">
       <div className="w-full max-w-3xl glass-card rounded-2xl flex flex-col gap-6 p-6 md:p-12">
-        <h1 className="text-3xl font-bold mb-2 gradient-text">Quizeme Linux</h1>
+        <h1 className="text-3xl font-bold mb-2 gradient-text">Dock The Flag</h1>
         <p className="mb-2">Date: To Be Announced</p>
         <p className="mb-6"><strong>Details:</strong> Further details related to time and venue will be shared soon.</p>
         <h2 className="text-xl font-semibold mb-2">Overall Flow of the Event</h2>

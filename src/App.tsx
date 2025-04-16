@@ -27,7 +27,7 @@ const events = [
   },
   {
     id: 3,
-    title: "Quizeme Linux",
+    title: "Dock The Flag",
     icon: Linux,
     fee: 70,
     description: "Put your Linux knowledge to the test in this fast-paced quiz competition about the open-source OS.",
@@ -83,7 +83,7 @@ function EventsSection({ onGDMoreDetails, onBoxMoreDetails, onLinuxMoreDetails, 
                     ? onGDMoreDetails
                     : event.title === 'Box Cricket'
                     ? onBoxMoreDetails
-                    : event.title === 'Quizeme Linux'
+                    : event.title === 'Dock The Flag'
                     ? onLinuxMoreDetails
                     : event.title === 'Technical Marathon'
                     ? onTechMarathonMoreDetails

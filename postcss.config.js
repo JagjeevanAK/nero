@@ -1,4 +1,4 @@
-export default {
+wexport default {
   plugins: {
     tailwindcss: {},
     autoprefixer: {},
