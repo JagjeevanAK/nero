@@ -7,6 +7,7 @@ import GroupDiscussionDetails from './GroupDiscussionDetails';
 import BoxCricketDetails from './BoxCricketDetails';
 import LinuxQuizDetails from './LinuxQuizDetails';
 import TechnicalMarathonDetails from './TechnicalMarathonDetails';
+import { submitToGoogleSheet } from './utils/submitForm';
 
 const events = [
   {
@@ -37,7 +38,7 @@ const events = [
     id: 4,
     title: "Box Cricket",
     icon: Cricket,
-    fee: 300,
+    fee: 400,
     description: "Experience cricket in a compact format with this exciting team sport in a limited space.",
     requiresTeam: true
   }
@@ -115,16 +116,46 @@ function App() {
   }, []);
 
   const onSubmit = async (data: FormData) => {
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setSubmissionStatus({
-        message: 'Registration successful! We\'ll contact you soon with further details.',
-        type: 'success'
+    // Map form data to Google Sheet expected fields
+    const eventMap: Record<string, string> = {
+      'Group Discussion (GD)': 'Coding',
+      'Technical Marathon': 'Coding',
+      'Dock The Flag': 'Quiz',
+      'Box Cricket': 'Box Cricket',
+    };
+    const event_name = eventMap[data.event] || data.event;
+    const formData: any = {
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      college: data.college,
+      year: data.yearOfStudy,
+      event_name,
+      reference: data.referenceCode || '',
+    };
+    if (data.boxCricketPlayers && event_name === 'Box Cricket') {
+      data.boxCricketPlayers.forEach((player, idx) => {
+        formData[`player${idx + 1}`] = player || '';
       });
+    }
+    try {
+      const response = await submitToGoogleSheet(formData);
+      setSubmissionStatus({
+        message: response,
+        type: response.includes('Registered Successfully') ? 'success' : 'error',
+      });
+      // Optionally, send welcome email after successful registration
+      if (response.includes('Registered Successfully')) {
+        await fetch('/api/send-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name: data.name, email: data.email }),
+        });
+      }
     } catch (error) {
       setSubmissionStatus({
         message: 'There was a problem with your registration. Please try again later.',
-        type: 'error'
+        type: 'error',
       });
     }
   };
