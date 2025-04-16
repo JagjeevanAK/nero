@@ -49,8 +49,9 @@ type FormData = {
   phone: string;
   college: string;
   event: string;
-  teamMembers: string;
-  yearOfStudy: string; // Added year of study
+  teamMembers?: string;
+  yearOfStudy: string;
+  boxCricketPlayers?: string[];
 };
 
 function EventsSection({ onGDMoreDetails, onBoxMoreDetails, onLinuxMoreDetails, onTechMarathonMoreDetails }: { onGDMoreDetails: () => void, onBoxMoreDetails: () => void, onLinuxMoreDetails: () => void, onTechMarathonMoreDetails: () => void }) {
@@ -103,7 +104,7 @@ function EventsSection({ onGDMoreDetails, onBoxMoreDetails, onLinuxMoreDetails, 
 
 function App() {
   const [selectedEvent, setSelectedEvent] = useState('');
-  const { register, handleSubmit, formState: { errors }, watch } = useForm<FormData>();
+  const { register, handleSubmit, formState: { errors }, watch, setValue, getValues, trigger } = useForm<FormData>();
   const [submissionStatus, setSubmissionStatus] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
   const [showGDModal, setShowGDModal] = useState(false);
   const navigate = useNavigate();
@@ -129,6 +130,33 @@ function App() {
 
   const watchEvent = watch('event');
   const currentEventFee = events.find(e => e.title === watchEvent)?.fee || 0;
+
+  // Helper to render 7 player fields for Box Cricket
+  const renderBoxCricketPlayers = () => {
+    const players = getValues('boxCricketPlayers') || Array(7).fill('');
+    return (
+      <div>
+        <label className="block text-sm font-medium mb-2">Team Members (7 Players)*</label>
+        <div className="grid grid-cols-1 gap-2">
+          {Array.from({ length: 7 }).map((_, idx) => (
+            <div key={idx}>
+              <input
+                className="form-input"
+                placeholder={`Player ${idx + 1} Name`}
+                {...register(`boxCricketPlayers.${idx}` as const, {
+                  required: 'Player name is required',
+                  validate: value => value && value.trim() !== '' || 'Player name is required'
+                })}
+              />
+              {errors.boxCricketPlayers && errors.boxCricketPlayers[idx] && (
+                <p className="text-red-400 text-sm mt-1">{errors.boxCricketPlayers[idx]?.message as string}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen theme-bg theme-text">
@@ -246,7 +274,13 @@ function App() {
               <label className="block text-sm font-medium mb-2">Select Event*</label>
               <select
                 {...register('event', { required: 'Please select an event' })}
-                onChange={(e) => setSelectedEvent(e.target.value)}
+                onChange={(e) => {
+                  setSelectedEvent(e.target.value);
+                  // Reset boxCricketPlayers when event changes
+                  if (e.target.value !== 'Box Cricket') {
+                    setValue('boxCricketPlayers', undefined);
+                  }
+                }}
                 className="form-input"
               >
                 <option value="">--Select an event--</option>
@@ -257,7 +291,9 @@ function App() {
               {errors.event && <p className="text-red-400 text-sm mt-1">{errors.event.message}</p>}
             </div>
 
-            {selectedEvent && events.find(e => e.title === selectedEvent)?.requiresTeam && (
+            {/* Box Cricket: 7 player fields, else textarea for team events */}
+            {selectedEvent === 'Box Cricket' && renderBoxCricketPlayers()}
+            {selectedEvent && events.find(e => e.title === selectedEvent)?.requiresTeam && selectedEvent !== 'Box Cricket' && (
               <div>
                 <label className="block text-sm font-medium mb-2">Team Members</label>
                 <textarea
