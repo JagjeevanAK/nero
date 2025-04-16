@@ -293,7 +293,7 @@ function App() {
 
             {/* Box Cricket: 7 player fields, else textarea for team events */}
             {selectedEvent === 'Box Cricket' && renderBoxCricketPlayers()}
-            {selectedEvent && events.find(e => e.title === selectedEvent)?.requiresTeam && selectedEvent !== 'Box Cricket' && (
+            {selectedEvent && events.find(e => e.title === selectedEvent)?.requiresTeam && selectedEvent !== 'Box Cricket' && selectedEvent !== 'Technical Marathon' && (
               <div>
                 <label className="block text-sm font-medium mb-2">Team Members</label>
                 <textarea
