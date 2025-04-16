@@ -3,8 +3,6 @@ import React from 'react';
 const BoxCricketDetails: React.FC = () => (
   <div className="min-h-screen theme-bg theme-text flex items-center justify-center py-10">
     <div className="max-w-2xl w-full mx-auto p-6 glass-card rounded-2xl">
-      {/* Horizontal rectangle at the top */}
-      <div className="w-full h-20 rounded-xl mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-80 shadow-lg" />
       <h1 className="text-3xl font-bold text-center mb-2 gradient-text">Box Cricket</h1>
       <p className="text-center mb-2">Date: To Be Announced</p>
       <p className="text-center mb-6"><strong>Details:</strong> Further details related to time and venue will be shared soon.</p>

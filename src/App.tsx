@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import GroupDiscussionDetails from './GroupDiscussionDetails';
 import BoxCricketDetails from './BoxCricketDetails';
+import LinuxQuizDetails from './LinuxQuizDetails';
 
 const events = [
   {
@@ -50,7 +51,7 @@ type FormData = {
   teamMembers: string;
 };
 
-function EventsSection({ onGDMoreDetails, onBoxMoreDetails }: { onGDMoreDetails: () => void, onBoxMoreDetails: () => void }) {
+function EventsSection({ onGDMoreDetails, onBoxMoreDetails, onLinuxMoreDetails }: { onGDMoreDetails: () => void, onBoxMoreDetails: () => void, onLinuxMoreDetails: () => void }) {
   return (
     <section id="events" className="py-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -79,6 +80,10 @@ function EventsSection({ onGDMoreDetails, onBoxMoreDetails }: { onGDMoreDetails:
                 </button>
               ) : event.title === 'Box Cricket' ? (
                 <button className="w-full btn-primary" onClick={onBoxMoreDetails}>
+                  More Details
+                </button>
+              ) : event.title === 'Quizeme Linux' ? (
+                <button className="w-full btn-primary" onClick={onLinuxMoreDetails}>
                   More Details
                 </button>
               ) : (
@@ -159,6 +164,7 @@ function App() {
       <EventsSection 
         onGDMoreDetails={() => navigate('/gd-rules')} 
         onBoxMoreDetails={() => navigate('/box-rules')} 
+        onLinuxMoreDetails={() => navigate('/linux-rules')}
       />
       {/* Registration Section */}
       <section id="registration" className="py-20 px-4">
@@ -299,6 +305,7 @@ function AppRoutes() {
         <Route path="/" element={<App />} />
         <Route path="/gd-rules" element={<GroupDiscussionDetails />} />
         <Route path="/box-rules" element={<BoxCricketDetails />} />
+        <Route path="/linux-rules" element={<LinuxQuizDetails />} />
       </Routes>
     </Router>
   );
