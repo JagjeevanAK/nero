@@ -377,7 +377,7 @@ function App() {
               <Linkedin className="w-6 h-6" />
             </a>
           </div>
-          <p className="theme-text-secondary mb-2">Contact: neuroverse2k25@college.edu</p>
+          <p className="theme-text-secondary mb-2">Contact: neuroverse2025@gmail.com</p>
           <p className="theme-text-secondary opacity-60">© 2k25 Neuroverse | Department of Artificial Intelligence and Data Science</p>
         </div>
       </footer>
