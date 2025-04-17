@@ -8,7 +8,6 @@ import BoxCricketDetails from './BoxCricketDetails';
 import LinuxQuizDetails from './LinuxQuizDetails';
 import TechnicalMarathonDetails from './TechnicalMarathonDetails';
 import { submitToGoogleSheet } from './utils/submitForm';
-import logo from '../logo.png';
 
 const events = [
   {
@@ -197,7 +196,7 @@ function App() {
       <header className="min-h-screen flex items-center justify-center text-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072')] bg-cover bg-center opacity-30"></div>
         <div className="relative z-10 px-4 flex flex-col items-center">
-          <img src={logo} alt="Neuroverse Logo" className="mx-auto mb-6 w-32 h-32 object-contain drop-shadow-lg" />
+          <img src="/logo.png" alt="Neuroverse Logo" className="mx-auto mb-6 w-32 h-32 object-contain drop-shadow-lg" />
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
