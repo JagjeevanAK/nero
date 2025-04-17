@@ -7,6 +7,6 @@ export default defineConfig({
     exclude: ['lucide-react'],
   },
   server: {
-    historyFallback: true
+    historyApiFallback: true
   }
 });
