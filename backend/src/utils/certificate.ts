@@ -2,6 +2,36 @@ import { Request, Response, NextFunction, RequestHandler } from 'express';
 import { createCanvas, loadImage } from 'canvas';
 import path from 'path';
 import { Registration } from '../register';
+import mongoose, { ConnectionStates } from 'mongoose';
+
+/**
+ * Ensures that a MongoDB connection is active before performing database operations
+ * @returns Promise that resolves when connection is ready
+ * @throws Error if connection cannot be established
+ */
+async function ensureDbConnection(): Promise<void> {
+    if (mongoose.connection.readyState === 1) { // 1 is the value for connected state
+        return;
+    }
+
+    console.log('MongoDB connection not ready, attempting to connect...');
+    
+    // Import using destructuring to avoid circular dependency issues
+    const { connectToMongoDB } = require('../register');
+    
+    try {
+        await connectToMongoDB();
+        // @ts-ignore
+        if (mongoose.connection.readyState !== 1) { // 1 is the value for connected state
+            throw new Error('MongoDB connection failed after connection attempt');
+        }
+        
+        console.log('MongoDB connection established successfully');
+    } catch (error: unknown) {
+        console.error('Failed to establish MongoDB connection:', error);
+        throw new Error(`Database connection failed: ${error instanceof Error ? error.message : String(error)}`);
+    }
+}
 
 export const generateCertificate: RequestHandler = async (req, res, next) => {
     const enabled = process.env.CERTIFICATE_DOWNLOAD_ENABLED === 'ON';
@@ -27,6 +57,9 @@ export const generateCertificate: RequestHandler = async (req, res, next) => {
 
     // Verify user registration exists
     try {
+        // Ensure DB connection is active before querying
+        await ensureDbConnection();
+
         const existing = await Registration.findOne({ name, email, phone, event_name: eventName });
         if (!existing) {
             res.status(404).json({ success: false, error: 'User not registered for this event' });

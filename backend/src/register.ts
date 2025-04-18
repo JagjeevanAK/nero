@@ -5,36 +5,57 @@ import { sendWelcomeEmail } from './utils/mail';
 
 dotenv.config();
 
+// Improved MongoDB connection handling to prevent "Topology is closed" errors
 async function connectToMongoDB() {
   try {
-    const mainConnection = await mongoose.connect(process.env.MONGO_URI as string);
-    
-    if (!mainConnection.connection.db) {
-      throw new Error('Database connection failed');
+    if (mongoose.connection.readyState === 1) {
+      // If already connected, don't reconnect
+      console.log('MongoDB connection already established');
+      return;
     }
-    const admin = mainConnection.connection.db.admin();
-    const dbInfo = await admin.listDatabases();
-    const dbList = dbInfo.databases.map(db => db.name);
     
-    const dbExists = dbList.includes('event');
-    
-    await mainConnection.connection.close();
-    
+    // Connect to MongoDB with the event database
     await mongoose.connect(process.env.MONGO_URI as string, {
-      dbName: 'event'
+      dbName: 'event',
+      // Add Mongoose 7+ connection options for serverless environments
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+      maxPoolSize: 10,
+      minPoolSize: 2
     });
     
-    if (dbExists) {
-      console.log('Connected to existing MongoDB database: event');
-    } else {
-      console.log('Connected to new MongoDB database: event');
-    }
+    console.log('Connected to MongoDB database: event');
+    
+    // Handle connection errors
+    mongoose.connection.on('error', (err) => {
+      console.error('MongoDB connection error:', err);
+    });
+    
+    // Handle disconnection (important for serverless)
+    mongoose.connection.on('disconnected', () => {
+      console.log('MongoDB disconnected');
+    });
+    
+    // Handle process termination
+    process.on('SIGINT', async () => {
+      await mongoose.connection.close();
+      console.log('MongoDB connection closed due to app termination');
+      process.exit(0);
+    });
+    
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
-    process.exit(1);
+    // Don't exit the process in serverless environment
+    if (process.env.VERCEL !== '1') {
+      process.exit(1);
+    }
   }
 }
 
+// Export the connection function
+export { connectToMongoDB };
+
+// Initialize database connection
 connectToMongoDB();
 
 interface RegistrationDoc extends Document {
