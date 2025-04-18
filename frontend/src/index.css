@@ -1,0 +1,95 @@
+@tailwind utilities;
+@import "tailwindcss";
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+
+  :root {
+    --bg-gradient: linear-gradient(to bottom right, #0f172a, #1e293b);
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+    --card-bg: rgba(255, 255, 255, 0.1);
+    --card-border: rgba(255, 255, 255, 0.2);
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    --input-bg: rgba(255, 255, 255, 0.05);
+    --input-border: rgba(255, 255, 255, 0.1);
+    --input-focus: #60a5fa;
+  }
+}
+
+@layer components {
+  .theme-bg {
+    background: var(--bg-gradient);
+  }
+
+  .theme-text {
+    color: var(--text-primary);
+  }
+
+  .theme-text-secondary {
+    color: var(--text-secondary);
+  }
+
+  .glass-card {
+    @apply backdrop-blur-lg border shadow-lg transition-all duration-300;
+    background: var(--card-bg);
+    border-color: var(--card-border);
+    box-shadow: var(--card-shadow);
+  }
+
+  .glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow), 0 10px 20px -10px rgba(0, 0, 0, 0.1);
+  }
+
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600;
+  }
+
+  /* Gradient text classes for custom titles */
+  .gradient-title-indie {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, #994ECC, #3E187A);
+  }
+
+  .gradient-title-rowling {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, #A5A4CB, #8989BB);
+  }
+
+  .gradient-title-anonymous {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, #647DEE, #7F53AC);
+  }
+
+  .gradient-title-neuroverse {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, #4f3bc0, #0066ff, #FF28A9, #D12DFF, #7C3DF2, #3F45F2, #00CFFF, #00FFB8);
+  }
+
+  .form-input {
+    @apply w-full px-4 py-2 rounded-lg outline-none transition-all duration-300;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+  }
+
+  .form-input:focus {
+    @apply ring-2;
+    border-color: var(--input-focus);
+    ring-color: var(--input-focus);
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 rounded-lg text-white font-medium transition-all duration-300 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-lg font-medium transition-all duration-300 bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/20 focus:ring-2 focus:ring-white/20;
+  }
+}
