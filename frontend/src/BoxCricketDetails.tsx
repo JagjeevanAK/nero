@@ -8,7 +8,7 @@ const BoxCricketDetails: React.FC = () => {
     <div className="min-h-screen theme-bg theme-text py-8 px-2 md:px-10 flex items-center justify-center">
       <div className="w-full max-w-3xl glass-card rounded-2xl flex flex-col gap-6 p-6 md:p-12">
         <h1 className="text-3xl font-bold mb-2 gradient-text">Box Cricket</h1>
-        <p className="mb-2">Date: To Be Announced</p>
+        <p className="mb-2">Date: 25 April 2025</p>
         <p className="mb-6"><strong>Details:</strong> Further details related to time and venue will be shared soon.</p>
         <h2 className="text-xl font-semibold mb-2">Rules & Regulations</h2>
         <ul className="list-disc list-inside mb-4 theme-text-secondary">

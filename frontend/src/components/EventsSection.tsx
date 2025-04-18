@@ -16,6 +16,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onGDMoreDetails, onBoxMor
   const [modalEvent, setModalEvent] = useState('');
   const [formFields, setFormFields] = useState({ name: '', email: '', phone: '' });
   const [formErrors, setFormErrors] = useState({ name: '', email: '', phone: '' });
+  const [boxPlayers, setBoxPlayers] = useState<string[]>(Array(7).fill(''));
 
   const handleCertificateDownload = async (eventTitle: string, details: { name: string; email: string; phone: string; }) => {
     setDownloadStatus('Downloading certificate...');
@@ -57,20 +58,39 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onGDMoreDetails, onBoxMor
     setModalEvent(eventTitle);
     setFormFields({ name: '', email: '', phone: '' });
     setFormErrors({ name: '', email: '', phone: '' });
+    setBoxPlayers(Array(7).fill(''));
     setDownloadError(null);
     setDownloadStatus(null);
     setIsModalOpen(true);
   };
 
-  const handleModalSubmit = (e: React.FormEvent) => {
+  const handleModalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errors: typeof formErrors = { name: '', email: '', phone: '' };
-    if (!formFields.name.trim()) errors.name = 'Name is required';
+    if (modalEvent === 'Box Cricket') {
+      const playerErrors = boxPlayers.map(name => !name.trim());
+      if (playerErrors.some(err => err)) {
+        setDownloadError('All player names are required');
+        return;
+      }
+    } else {
+      if (!formFields.name.trim()) errors.name = 'Name is required';
+    }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formFields.email)) errors.email = 'Valid email is required';
     if (!/^\d{10}$/.test(formFields.phone)) errors.phone = 'Valid 10-digit phone is required';
     setFormErrors(errors);
     if (errors.name || errors.email || errors.phone) return;
-    handleCertificateDownload(modalEvent, formFields);
+    setDownloadError(null);
+    setDownloadStatus('Downloading certificate...');
+    if (modalEvent === 'Box Cricket') {
+      for (const playerName of boxPlayers) {
+        await handleCertificateDownload(modalEvent, { name: playerName, email: formFields.email, phone: formFields.phone });
+      }
+      setDownloadStatus(null);
+      setIsModalOpen(false);
+    } else {
+      handleCertificateDownload(modalEvent, formFields);
+    }
   };
 
   return (
@@ -116,7 +136,6 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onGDMoreDetails, onBoxMor
                   type="button"
                   className="w-full btn-secondary"
                   onClick={() => {
-                    // Check server feature flag via PUT
                     fetch('/api/download-certificate', { method: 'PUT' })
                       .then(res => res.json())
                       .then(data => {
@@ -141,15 +160,32 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onGDMoreDetails, onBoxMor
               <div className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 rounded-lg w-full max-w-md">
                 <h3 className="text-xl font-semibold mb-4">Download {modalEvent} Certificate</h3>
                 <form onSubmit={handleModalSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium">Name<span className="text-red-500">*</span></label>
-                    <input
-                      className="form-input w-full"
-                      value={formFields.name}
-                      onChange={e => setFormFields({ ...formFields, name: e.target.value })}
-                    />
-                    {formErrors.name && <p className="text-red-500 text-sm">{formErrors.name}</p>}
-                  </div>
+                  {modalEvent === 'Box Cricket' ? (
+                    <div>
+                      <label className="block text-sm font-medium mb-2">Player Names (7)<span className="text-red-500">*</span></label>
+                      {boxPlayers.map((player, idx) => (
+                        <input
+                          key={idx}
+                          className="form-input w-full mb-1"
+                          placeholder={idx === 0 ? 'Leader' : `Player ${idx + 1}`}
+                          value={player}
+                          onChange={e => {
+                            const arr = [...boxPlayers]; arr[idx] = e.target.value; setBoxPlayers(arr);
+                          }}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div>
+                      <label className="block text-sm font-medium">Name<span className="text-red-500">*</span></label>
+                      <input
+                        className="form-input w-full"
+                        value={formFields.name}
+                        onChange={e => setFormFields({ ...formFields, name: e.target.value })}
+                      />
+                      {formErrors.name && <p className="text-red-500 text-sm">{formErrors.name}</p>}
+                    </div>
+                  )}
                   <div>
                     <label className="block text-sm font-medium">Email<span className="text-red-500">*</span></label>
                     <input
