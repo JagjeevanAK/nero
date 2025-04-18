@@ -1,0 +1,8 @@
+{
+  "name": "neuroverse",
+  "version": "1.0.0",
+  "description": "Neuroverse event platform",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build && mkdir -p ../dist && cp -r dist/* ../dist/"
+  }
+}
