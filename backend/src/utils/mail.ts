@@ -30,7 +30,7 @@ export async function sendWelcomeEmail(to: string, id: string, name: string, yea
                         <img alt="Event Logo" src="https://nero-henna.vercel.app/logo.png" class="logo">
                     </div>
                     <div esd-text="true" class="banner esd-text">
-                        Neuroverse 2025: Welcome Aboard! 🎉
+                        Neuroverse 2025: Welcome Onboard! 🎉
                     </div>
                     <div esd-text="true" class="content esd-text" style="font-family: monospace">
                         Hello <strong>${name}</strong>,
