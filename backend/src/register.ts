@@ -5,14 +5,37 @@ import { sendWelcomeEmail } from './utils/mail';
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_URI as string, {
-  dbName: 'event'
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch((error) => {
+async function connectToMongoDB() {
+  try {
+    const mainConnection = await mongoose.connect(process.env.MONGO_URI as string);
+    
+    if (!mainConnection.connection.db) {
+      throw new Error('Database connection failed');
+    }
+    const admin = mainConnection.connection.db.admin();
+    const dbInfo = await admin.listDatabases();
+    const dbList = dbInfo.databases.map(db => db.name);
+    
+    const dbExists = dbList.includes('event');
+    
+    await mainConnection.connection.close();
+    
+    await mongoose.connect(process.env.MONGO_URI as string, {
+      dbName: 'event'
+    });
+    
+    if (dbExists) {
+      console.log('Connected to existing MongoDB database: event');
+    } else {
+      console.log('Connected to new MongoDB database: event');
+    }
+  } catch (error) {
     console.error('Error connecting to MongoDB:', error);
     process.exit(1);
-});
+  }
+}
+
+connectToMongoDB();
 
 interface RegistrationDoc extends Document {
   _id: mongoose.Types.ObjectId;
