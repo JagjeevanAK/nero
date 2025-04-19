@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Calendar, MapPin, Gift, Users, Award } from 'lucide-react';
 
@@ -7,7 +6,6 @@ const accentBg =
   'bg-gradient-to-br from-blue-900/40 via-indigo-800/30 to-fuchsia-700/20 absolute -z-10 rounded-full blur-3xl opacity-60';
 
 const NeuroverseMainEventDetails: React.FC = () => {
-  const navigate = useNavigate();
   useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
     <div className="min-h-screen theme-bg theme-text py-8 px-2 md:px-10 flex flex-col items-center justify-center relative overflow-hidden">

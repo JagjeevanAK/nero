@@ -64,31 +64,6 @@ const RegistrationSection: React.FC = () => {
 
   const currentEventFee = events.find(e => e.title === watch('event'))?.fee || 0;
 
-  const renderBoxCricketPlayers = () => {
-    return (
-      <div>
-        <label className="block text-sm font-medium mb-2">Team Members (7 Players)<span className="text-red-500">*</span></label>
-        <div className="grid grid-cols-1 gap-2">
-          {Array.from({ length: 7 }).map((_, idx) => (
-            <div key={idx}>
-              <input
-                className="form-input"
-                placeholder={`Player ${idx + 1} Name`}
-                {...register(`boxCricketPlayers.${idx}` as const, {
-                  required: 'Player name is required',
-                  validate: value => value && value.trim() !== '' || 'Player name is required'
-                })}
-              />
-              {errors.boxCricketPlayers && errors.boxCricketPlayers[idx] && (
-                <p className="text-red-400 text-sm mt-1">{errors.boxCricketPlayers[idx]?.message as string}</p>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
   return (
     <section id="registration" className="min-h-screen w-full py-20 px-4 flex items-center justify-center">
       <div className="max-w-2xl w-full glass-card rounded-3xl p-0 shadow-2xl border border-white/20 backdrop-blur-lg relative overflow-hidden">
