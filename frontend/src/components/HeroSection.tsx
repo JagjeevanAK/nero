@@ -21,14 +21,14 @@ const HeroSection: React.FC = () => (
         transition={{ duration: 0.8, delay: 0.2 }}
         className="text-2xl md:text-3xl mb-8 theme-text-secondary"
       >
-        Unleash Your Inner Genius
+        Run The Mind
       </motion.h2>
       <motion.a
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
-        href="#events"
-        className="btn-primary inline-flex items-center"
+        href="#main-event"
+        className="btn-primary inline-flex items-center mb-4"
       >
         Explore Events <ChevronDown className="ml-2" />
       </motion.a>

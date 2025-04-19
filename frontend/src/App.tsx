@@ -8,6 +8,7 @@ import LinuxQuizDetails from './LinuxQuizDetails';
 import TechnicalMarathonDetails from './TechnicalMarathonDetails';
 import EventsSection from './components/EventsSection';
 import HeroSection from './components/HeroSection';
+import NeuroverseMainEventDetails from './NeuroverseMainEventDetails';
 
 function App() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ function App() {
   return (
     <div className="min-h-screen theme-bg theme-text">
       <HeroSection />
+      <NeuroverseMainEventDetails />
       <EventsSection
         onGDMoreDetails={() => navigate('/gd-rules')}
         onBoxMoreDetails={() => navigate('/box-rules')}
