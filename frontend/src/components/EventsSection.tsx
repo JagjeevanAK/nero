@@ -18,6 +18,12 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onGDMoreDetails, onBoxMor
   const [formErrors, setFormErrors] = useState({ firstName: '', lastName: '', email: '', phone: '' });
   const [boxPlayers, setBoxPlayers] = useState<string[]>(Array(7).fill(''));
 
+  // Toggle download button visibility based on env flag
+  const rawCertFlag = import.meta.env.VITE_CERTIFICATE_DOWNLOAD_ENABLED;
+  console.log('VITE_CERTIFICATE_DOWNLOAD_ENABLED:', rawCertFlag);
+  // Default to true if flag is undefined (e.g., in some dev setups)
+  const certEnabled = rawCertFlag === undefined ? true : rawCertFlag.toUpperCase() === 'ON';
+
   const handleCertificateDownload = async (eventTitle: string, details: { firstName: string; lastName: string; email: string; phone: string; }) => {
     setDownloadStatus('Downloading certificate...');
     setDownloadError(null);
@@ -161,26 +167,28 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onGDMoreDetails, onBoxMor
                     More Details
                   </span>
                 </button>
-                <button
-                  type="button"
-                  className="w-full btn-secondary"
-                  onClick={() => {
-                    fetch('/api/download-certificate', { method: 'PUT' })
-                      .then(res => res.json())
-                      .then(data => {
-                        if (data.success) {
-                          openModal(event.title);
-                        } else {
-                          alert('You will be able to download certificates after all the events are completed');
-                        }
-                      })
-                      .catch(() => {
-                        alert('Unable to check certificate availability');
-                      });
-                  }}
-                >
-                  Download Certificate
-                </button>
+                {certEnabled && (
+                  <button
+                    type="button"
+                    className="w-full btn-secondary"
+                    onClick={() => {
+                      fetch('/api/download-certificate', { method: 'PUT' })
+                        .then(res => res.json())
+                        .then(data => {
+                          if (data.success) {
+                            openModal(event.title);
+                          } else {
+                            alert('You will be able to download certificates after all the events are completed');
+                          }
+                        })
+                        .catch(() => {
+                          alert('Unable to check certificate availability');
+                        });
+                    }}
+                  >
+                    Download Certificate
+                  </button>
+                )}
               </div>
             </motion.div>
           ))}
