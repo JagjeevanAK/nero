@@ -73,7 +73,6 @@ export const generateCertificate: RequestHandler = async (req, res, next) => {
         return;
     }
 
-    let registrationId: string;
     try {
         // Ensure DB connection is active before querying
         await ensureDbConnection();
@@ -89,8 +88,6 @@ export const generateCertificate: RequestHandler = async (req, res, next) => {
             res.status(404).json({ success: false, error: 'User not registered for this event' });
             return;
         }
-        // Extract registration ID for certificate
-        registrationId = existing._id.toString();
     } catch (err) {
         console.error('Error checking registration:', err);
         res.status(500).json({ success: false, error: 'Error checking registration' });
@@ -105,12 +102,6 @@ export const generateCertificate: RequestHandler = async (req, res, next) => {
 
         ctx.drawImage(image, 0, 0, image.width, image.height);
 
-        // Draw Registration ID above the name
-        ctx.font = 'bold 24px "Open Sans"';
-        ctx.fillStyle = '#000000';
-        ctx.textAlign = 'center';
-        ctx.fillText(`ID: ${registrationId}`, image.width / 2, image.height / 2 - 40);
-        // Draw recipient name
         ctx.font = 'bold 42px "Open Sans"';
         ctx.fillStyle = '#000000';
         ctx.textAlign = 'center';
