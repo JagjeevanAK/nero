@@ -11,6 +11,12 @@ export async function sendWelcomeEmail(
   eventName: string,
   college: string,
 ): Promise<void> {
+  // Helper to capitalize first letter of each word
+  const toTitleCase = (s: string) => s.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  const formattedName = toTitleCase(name);
+  const formattedEvent = toTitleCase(eventName);
+  const formattedCollege = toTitleCase(college);
+
   const maxRetries = 3;
   let attempt = 0;
   const mailOptions = {
@@ -42,11 +48,11 @@ export async function sendWelcomeEmail(
                         Neuroverse 2025: Welcome Onboard! 🎉
                     </div>
                     <div esd-text="true" class="content esd-text" style="font-family: monospace">
-                        Hello <strong>${name}</strong>,
+                        Hello <strong>${formattedName}</strong>,
                         <br><br>
                         <span>
                             You’ve successfully registered for
-                            <strong>${eventName}</strong>
+                            <strong>${formattedEvent}</strong>
                             as part of
                             <strong>Neuroverse 2K25</strong>
                             ! We’re super excited to have you onboard.
@@ -64,7 +70,7 @@ export async function sendWelcomeEmail(
                         <strong>
                             College:
                         </strong>
-                        ${college}
+                        ${formattedCollege}
                         <br>
                         <strong>
                             Year of Study:
