@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 import { events } from '../data/events';
 
 type FormData = {
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
   college: string;
@@ -28,7 +29,8 @@ const RegistrationSection: React.FC = () => {
     };
     const event_name = eventMap[data.event] || data.event;
     const formData: any = {
-      name: data.name,
+      firstName: data.firstName,
+      lastName: data.lastName,
       email: data.email,
       phone: data.phone,
       college: data.college,
@@ -91,11 +93,17 @@ const RegistrationSection: React.FC = () => {
               <h3 className="text-lg font-bold theme-text">Personal Info</h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Name */}
+              {/* First Name */}
               <div>
-                <label className="block text-base font-semibold mb-1 theme-text-secondary">Name<span className="text-red-500">*</span></label>
-                <input {...register('name', { required: 'Name is required' })} className="form-input bg-white/10 theme-text placeholder:text-slate-400 focus:ring-2 focus:ring-blue-400" placeholder="Your full name" />
-                {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name.message}</p>}
+                <label className="block text-base font-semibold mb-1 theme-text-secondary">First Name<span className="text-red-500">*</span></label>
+                <input {...register('firstName', { required: 'First name is required' })} className="form-input bg-white/10 theme-text placeholder:text-slate-400 focus:ring-2 focus:ring-blue-400" placeholder="First name" />
+                {errors.firstName && <p className="text-red-400 text-xs mt-1">{errors.firstName.message}</p>}
+              </div>
+              {/* Last Name */}
+              <div>
+                <label className="block text-base font-semibold mb-1 theme-text-secondary">Last Name<span className="text-red-500">*</span></label>
+                <input {...register('lastName', { required: 'Last name is required' })} className="form-input bg-white/10 theme-text placeholder:text-slate-400 focus:ring-2 focus:ring-blue-400" placeholder="Last name" />
+                {errors.lastName && <p className="text-red-400 text-xs mt-1">{errors.lastName.message}</p>}
               </div>
               {/* Email */}
               <div>

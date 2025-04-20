@@ -3,8 +3,10 @@ import { Registration } from './register';
 
 export const checkDuplicate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   const { email, event_name } = req.body;
+  const emailLower = (email as string).toLowerCase();
+  const eventLower = (event_name as string).toLowerCase();
   try {
-    const existing = await Registration.findOne({ email, event_name });
+    const existing = await Registration.findOne({ email: emailLower, event_name: eventLower });
     if (existing) {
       res.status(409).json({ success: false, error: 'User already registered for this event' });
       return;

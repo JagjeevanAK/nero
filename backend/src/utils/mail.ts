@@ -2,13 +2,22 @@ import transporter from "./mailer";
 import dotenv from 'dotenv';
 dotenv.config();
 
-export async function sendWelcomeEmail(to: string, id: string, name: string, yearOfStudy:string, phone:string, eventName: string, college: string, ): Promise<void> {
-    try {
-        await transporter.sendMail({
-            from: `"Neuroverse 2025" <${process.env.EMAIL_USER}>`,
-            to,
-            subject: 'Welcome to Neuroverse 2K25 🎉',
-            html: `<html lang="en">
+export async function sendWelcomeEmail(
+  to: string,
+  id: string,
+  name: string,
+  yearOfStudy: string,
+  phone: string,
+  eventName: string,
+  college: string,
+): Promise<void> {
+  const maxRetries = 3;
+  let attempt = 0;
+  const mailOptions = {
+    from: `"Neuroverse 2K25" <${process.env.EMAIL_USER}>`,
+    to,
+    subject: 'Welcome to Neuroverse 2K25 🎉',
+    html: `<html lang="en">
                 <head>
                     <meta charset="UTF-8">
                     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -85,11 +94,24 @@ export async function sendWelcomeEmail(to: string, id: string, name: string, yea
                     </div>
                 </body>
                 </html>`
-
-        });
-    } catch (error) {
-        console.error('Failed to send welcome email:', error);
+  };
+  while (attempt < maxRetries) {
+    try {
+      const info = await transporter.sendMail(mailOptions);
+      console.log(`Welcome email sent (attempt ${attempt+1}/${maxRetries}): messageId=${info.messageId}`);
+      return;
+    } catch (err) {
+      attempt++;
+      console.error(`Error sending welcome email (attempt ${attempt}/${maxRetries}):`, err);
+      if (attempt < maxRetries) {
+        // exponential backoff
+        const delay = Math.pow(2, attempt) * 1000;
+        await new Promise(res => setTimeout(res, delay));
+      } else {
+        console.error('All attempts to send welcome email failed');
+      }
     }
+  }
 }
 
 export default transporter;

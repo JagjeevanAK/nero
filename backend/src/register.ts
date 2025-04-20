@@ -60,7 +60,8 @@ connectToMongoDB();
 
 interface RegistrationDoc extends Document {
   _id: mongoose.Types.ObjectId;
-  name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   phone: string;
   college: string;
@@ -73,7 +74,8 @@ interface RegistrationDoc extends Document {
 }
 
 const registrationSchema = new Schema<RegistrationDoc>({
-  name: { type: String, required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   email: { type: String, required: true },
   phone: { type: String, required: true },
   college: { type: String, required: true },
@@ -89,13 +91,28 @@ const Registration = mongoose.model<RegistrationDoc>('Registration', registratio
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
-    const registration = new Registration(req.body);
+    const { firstName, lastName, email, phone, college, yearOfStudy, event_name, teamMembers, boxCricketPlayers, reference } = req.body;
+    const normalizedData = {
+      firstName: firstName.toLowerCase(),
+      lastName: lastName.toLowerCase(),
+      email: email.toLowerCase(),
+      phone: phone.toLowerCase(),
+      college: college.toLowerCase(),
+      yearOfStudy: yearOfStudy.toLowerCase(),
+      event_name: event_name.toLowerCase(),
+      teamMembers: (teamMembers || []).map((n: string) => n.toLowerCase()),
+      boxCricketPlayers: (boxCricketPlayers || []).map((n: string) => n.toLowerCase()),
+      reference: (reference || '').toLowerCase(),
+    };
+    const registration = new Registration(normalizedData);
     const saved = await registration.save();
     
+    // send welcome email with full name
+    const fullName = `${saved.firstName} ${saved.lastName}`;
     sendWelcomeEmail(
       saved.email,
       saved._id.toString(),
-      saved.name,
+      fullName,
       saved.yearOfStudy,
       saved.phone,
       saved.event_name,

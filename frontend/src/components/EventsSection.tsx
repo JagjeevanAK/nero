@@ -14,26 +14,26 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onGDMoreDetails, onBoxMor
   const [downloadStatus, setDownloadStatus] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalEvent, setModalEvent] = useState('');
-  const [formFields, setFormFields] = useState({ name: '', email: '', phone: '' });
-  const [formErrors, setFormErrors] = useState({ name: '', email: '', phone: '' });
+  const [formFields, setFormFields] = useState({ firstName: '', lastName: '', email: '', phone: '' });
+  const [formErrors, setFormErrors] = useState({ firstName: '', lastName: '', email: '', phone: '' });
   const [boxPlayers, setBoxPlayers] = useState<string[]>(Array(7).fill(''));
 
-  const handleCertificateDownload = async (eventTitle: string, details: { name: string; email: string; phone: string; }) => {
+  const handleCertificateDownload = async (eventTitle: string, details: { firstName: string; lastName: string; email: string; phone: string; }) => {
     setDownloadStatus('Downloading certificate...');
     setDownloadError(null);
-    const { name, email, phone } = details;
+    const { firstName, lastName, email, phone } = details;
     try {
       const res = await fetch('/api/download-certificate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone, event: eventTitle }),
+        body: JSON.stringify({ firstName, lastName, email, phone, event: eventTitle }),
       });
       if (res.ok) {
         const blob = await res.blob();
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = `${eventTitle.replace(/\s+/g, '_')}_${name}_certificate.png`;
+        link.download = `${eventTitle.replace(/\s+/g, '_')}_${firstName}_${lastName}_certificate.png`;
         document.body.appendChild(link);
         link.click();
         link.remove();
@@ -56,8 +56,8 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onGDMoreDetails, onBoxMor
 
   const openModal = (eventTitle: string) => {
     setModalEvent(eventTitle);
-    setFormFields({ name: '', email: '', phone: '' });
-    setFormErrors({ name: '', email: '', phone: '' });
+    setFormFields({ firstName: '', lastName: '', email: '', phone: '' });
+    setFormErrors({ firstName: '', lastName: '', email: '', phone: '' });
     setBoxPlayers(Array(7).fill(''));
     setDownloadError(null);
     setDownloadStatus(null);
@@ -66,7 +66,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onGDMoreDetails, onBoxMor
 
   const handleModalSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const errors: typeof formErrors = { name: '', email: '', phone: '' };
+    const errors: typeof formErrors = { firstName: '', lastName: '', email: '', phone: '' };
     if (modalEvent === 'Box Cricket') {
       const playerErrors = boxPlayers.map(name => !name.trim());
       if (playerErrors.some(err => err)) {
@@ -74,22 +74,26 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onGDMoreDetails, onBoxMor
         return;
       }
     } else {
-      if (!formFields.name.trim()) errors.name = 'Name is required';
+      if (!formFields.firstName.trim()) errors.firstName = 'First name is required';
+      if (!formFields.lastName.trim()) errors.lastName = 'Last name is required';
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formFields.email)) errors.email = 'Valid email is required';
     if (!/^\d{10}$/.test(formFields.phone)) errors.phone = 'Valid 10-digit phone is required';
     setFormErrors(errors);
-    if (errors.name || errors.email || errors.phone) return;
+    if (errors.firstName || errors.lastName || errors.email || errors.phone) return;
     setDownloadError(null);
     setDownloadStatus('Downloading certificate...');
     if (modalEvent === 'Box Cricket') {
       for (const playerName of boxPlayers) {
-        await handleCertificateDownload(modalEvent, { name: playerName, email: formFields.email, phone: formFields.phone });
+        const parts = playerName.trim().split(' ');
+        const firstName = parts.shift() || '';
+        const lastName = parts.join(' ') || '';
+        await handleCertificateDownload(modalEvent, { firstName, lastName, email: formFields.email, phone: formFields.phone });
       }
       setDownloadStatus(null);
       setIsModalOpen(false);
     } else {
-      handleCertificateDownload(modalEvent, formFields);
+      handleCertificateDownload(modalEvent, { firstName: formFields.firstName, lastName: formFields.lastName, email: formFields.email, phone: formFields.phone });
     }
   };
 
@@ -188,27 +192,40 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onGDMoreDetails, onBoxMor
                   {modalEvent === 'Box Cricket' ? (
                     <div>
                       <label className="block text-sm font-medium mb-2">Player Names (7)<span className="text-red-500">*</span></label>
-                      {boxPlayers.map((player, idx) => (
-                        <input
-                          key={idx}
-                          className="form-input w-full mb-1"
-                          placeholder={idx === 0 ? 'Leader' : `Player ${idx + 1}`}
-                          value={player}
-                          onChange={e => {
-                            const arr = [...boxPlayers]; arr[idx] = e.target.value; setBoxPlayers(arr);
-                          }}
-                        />
-                      ))}
+                      <div>
+                        {boxPlayers.map((player, idx) => (
+                          <input
+                            key={idx}
+                            className="form-input w-full mb-1"
+                            placeholder={idx === 0 ? 'Leader' : `Player ${idx + 1}`}
+                            value={player}
+                            onChange={e => {
+                              const arr = [...boxPlayers]; arr[idx] = e.target.value; setBoxPlayers(arr);
+                            }}
+                          />
+                        ))}
+                      </div>
                     </div>
                   ) : (
-                    <div>
-                      <label className="block text-sm font-medium">Name<span className="text-red-500">*</span></label>
-                      <input
-                        className="form-input w-full"
-                        value={formFields.name}
-                        onChange={e => setFormFields({ ...formFields, name: e.target.value })}
-                      />
-                      {formErrors.name && <p className="text-red-500 text-sm">{formErrors.name}</p>}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-sm font-medium">First Name<span className="text-red-500">*</span></label>
+                        <input
+                          className="form-input w-full"
+                          value={formFields.firstName}
+                          onChange={e => setFormFields({ ...formFields, firstName: e.target.value })}
+                        />
+                        {formErrors.firstName && <p className="text-red-500 text-sm">{formErrors.firstName}</p>}
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium">Last Name<span className="text-red-500">*</span></label>
+                        <input
+                          className="form-input w-full"
+                          value={formFields.lastName}
+                          onChange={e => setFormFields({ ...formFields, lastName: e.target.value })}
+                        />
+                        {formErrors.lastName && <p className="text-red-500 text-sm">{formErrors.lastName}</p>}
+                      </div>
                     </div>
                   )}
                   <div>
