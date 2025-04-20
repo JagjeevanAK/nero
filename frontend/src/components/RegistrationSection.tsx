@@ -16,11 +16,14 @@ type FormData = {
 };
 
 const RegistrationSection: React.FC = () => {
+  // loading state to block UI during registration
+  const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<FormData>();
   const selectedEvent = watch('event');
   const [submissionStatus, setSubmissionStatus] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
   const onSubmit = async (data: FormData) => {
+    setIsLoading(true);
     const eventMap: Record<string, string> = {
       'Group Discussion (GD)': 'GD',
       'Technical Marathon': 'Technical Marathon',
@@ -49,19 +52,24 @@ const RegistrationSection: React.FC = () => {
       formData.teamMembers = data.teamMembers.split('\n').map(name => name.trim()).filter(Boolean);
     }
 
-    // seed registration to backend DB
-    const res = await fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-    const result = await res.json();
-    if (result.success) {
-      alert('Registered successfully!');
-      window.location.reload();
-      return;
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const result = await res.json();
+      if (result.success) {
+        alert('Registered successfully!');
+        window.location.reload();
+        return;
+      }
+      setSubmissionStatus({ message: result.error || 'Registration failed.', type: 'error' });
+    } catch (error) {
+      setSubmissionStatus({ message: 'Registration failed.', type: 'error' });
+    } finally {
+      setIsLoading(false);
     }
-    setSubmissionStatus({ message: result.error || 'Registration failed.', type: 'error' });
   };
 
   const currentEventFee = events.find(e => e.title === watch('event'))?.fee || 0;
@@ -86,6 +94,8 @@ const RegistrationSection: React.FC = () => {
           </div>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-10 px-8 py-10 md:py-12">
+          {/* block form when loading */}
+          <div className={isLoading ? 'absolute inset-0 bg-black bg-opacity-50 z-50 pointer-events-none' : ''}></div>
           {/* Personal Info Section */}
           <div>
             <div className="flex items-center gap-2 mb-4">
@@ -190,8 +200,16 @@ const RegistrationSection: React.FC = () => {
             </div>
           </div>
           {/* Submit Button */}
-          <button type="submit" className="w-full btn-primary text-lg font-bold shadow-lg py-4 mt-2 hover:scale-105 transition-transform">Register</button>
+          <button type="submit" disabled={isLoading} className="w-full btn-primary text-lg font-bold shadow-lg py-4 mt-2 hover:scale-105 transition-transform">
+            {isLoading ? 'Registering...' : 'Register'}
+          </button>
         </form>
+        {/* Loader overlay */}
+        {isLoading && (
+          <div className="fixed inset-0 bg-white bg-opacity-30 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="w-12 h-12 border-4 border-gray-300 border-t-gray-500 rounded-full animate-spin"></div>
+          </div>
+        )}
         {/* Info Box */}
         <div className="px-8 pb-8">
           <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-blue-900/30 via-fuchsia-900/20 to-indigo-900/30 border border-blue-400/10 text-sm theme-text-secondary flex items-center gap-3">
