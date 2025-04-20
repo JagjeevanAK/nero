@@ -61,7 +61,7 @@ export const generateCertificate: RequestHandler = async (req, res, next) => {
 
     // Map display titles to DB event_name values
     const eventMap: Record<string, string> = {
-        'Group Discussion (GD)': 'GD',
+        'Group Discussion (GD)': 'Group Discussion',
         'Technical Marathon': 'Technical Marathon',
         'Dock The Flag': 'Dock The Flag',
         'Box Cricket': 'Box Cricket'
