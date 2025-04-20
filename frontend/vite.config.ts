@@ -7,7 +7,7 @@ export default defineConfig({
   base: '/',  // Explicitly set base path
   plugins: [react(), tailwindcss(),],
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    include: ['lucide-react'],
   },
   server: {
     proxy: {
