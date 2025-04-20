@@ -107,9 +107,9 @@ export const registerUser = async (req: Request, res: Response) => {
     const registration = new Registration(normalizedData);
     const saved = await registration.save();
     
-    // send welcome email with full name
+    // send welcome email with full name and await it so function doesn't terminate early
     const fullName = `${saved.firstName} ${saved.lastName}`;
-    sendWelcomeEmail(
+    await sendWelcomeEmail(
       saved.email,
       saved._id.toString(),
       fullName,
