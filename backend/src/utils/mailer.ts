@@ -14,21 +14,23 @@ if (!emailUser || !emailPass) {
 
 let transporter: Transporter;
 
-// Use explicit SMTP settings instead of deprecated 'service'
+// Use STARTTLS on port 587 to avoid 465 greeting timeouts
 transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
-  port: 465,
-  secure: true,
+  port: 587,
+  secure: false,
+  requireTLS: true,
   auth: {
     user: emailUser,
     pass: emailPass,
   },
-  pool: true,              // reuse SMTP connections
-  maxConnections: 5,       // limit concurrent
-  maxMessages: 100,        // limit messages per connection
-  rateLimit: true,         // solder to Google’s send limits
-  connectionTimeout: 10000,
-  greetingTimeout: 5000,
+  pool: true,
+  maxConnections: 5,
+  maxMessages: 100,
+  rateLimit: true,
+  connectionTimeout: 30000,  // 30s
+  greetingTimeout: 30000,    // 30s
+  socketTimeout: 30000,
   tls: { rejectUnauthorized: false },
 } as SMTPTransport.Options);
 
