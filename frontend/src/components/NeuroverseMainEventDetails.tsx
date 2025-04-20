@@ -14,30 +14,21 @@ const NeuroverseMainEventDetails: React.FC = () => {
       <div className={`${accentBg} w-80 h-80 bottom-[-4rem] right-[-4rem]`}></div>
       <motion.div
         id="main-event"
-        className="w-full max-w-3xl glass-card rounded-2xl flex flex-col gap-8 p-6 md:p-12 mb-8 scroll-mt-24 shadow-2xl relative"
+        className="w-full max-w-3xl glass-card rounded-3xl flex flex-col gap-8 p-6 md:p-12 mb-8 scroll-mt-24 shadow-2xl border border-white/20 backdrop-blur-lg relative overflow-hidden"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.7 }}
       >
-        <motion.h1
-          className="text-4xl md:text-5xl font-extrabold mb-4 gradient-title-neuroverse text-center drop-shadow-lg"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          Neuroverse 2K25
-        </motion.h1>
         <motion.p
           className="text-lg md:text-xl text-center mb-6 theme-text-secondary"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.7 }}
         >
-          <span className="inline-block px-4 py-1 rounded-full bg-blue-600/20 text-blue-200 font-semibold tracking-wide mb-2">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-center gradient-title-neuroverse drop-shadow-lg mb-2">
             The Grand Tech & Sports Fest
-          </span>
-          <br />
+          </h2>
           <span className="text-base md:text-lg">Organized by the Department of Artificial Intelligence and Data Science</span>
         </motion.p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
