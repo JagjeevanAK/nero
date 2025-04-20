@@ -205,8 +205,8 @@ const RegistrationSection: React.FC = () => {
         </form>
         {/* Loader overlay */}
         {isLoading && (
-          <div className="fixed inset-0 bg-white bg-opacity-30 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="w-12 h-12 border-4 border-gray-300 border-t-gray-500 rounded-full animate-spin"></div>
+          <div className="absolute inset-0 bg-transparent flex items-center justify-center z-50">
+            <img src="/logo.png" alt="Loading..." className="w-16 h-16 animate-spin-slow" />
           </div>
         )}
         {/* Info Box */}
