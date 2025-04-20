@@ -14,23 +14,17 @@ if (!emailUser || !emailPass) {
 
 let transporter: Transporter;
 
-// Use STARTTLS on port 587 to avoid 465 greeting timeouts
+// Disable pooling to ensure fresh SMTP handshake on each send; increase timeouts
 transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 587,
   secure: false,
   requireTLS: true,
-  auth: {
-    user: emailUser,
-    pass: emailPass,
-  },
-  pool: true,
-  maxConnections: 5,
-  maxMessages: 100,
-  rateLimit: true,
-  connectionTimeout: 30000,  // 30s
-  greetingTimeout: 30000,    // 30s
-  socketTimeout: 30000,
+  auth: { user: emailUser, pass: emailPass },
+  pool: false,
+  connectionTimeout: 60000,  // 60s
+  greetingTimeout: 60000,    // 60s
+  socketTimeout: 60000,
   tls: { rejectUnauthorized: false },
 } as SMTPTransport.Options);
 
