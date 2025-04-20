@@ -8,7 +8,7 @@ import LinuxQuizDetails from './LinuxQuizDetails';
 import TechnicalMarathonDetails from './TechnicalMarathonDetails';
 import EventsSection from './components/EventsSection';
 import HeroSection from './components/HeroSection';
-import NeuroverseMainEventDetails from './NeuroverseMainEventDetails';
+import NeuroverseMainEventDetails from './components/NeuroverseMainEventDetails';
 
 function App() {
   const navigate = useNavigate();

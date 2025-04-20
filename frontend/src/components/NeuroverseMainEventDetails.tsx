@@ -8,7 +8,7 @@ const accentBg =
 const NeuroverseMainEventDetails: React.FC = () => {
   useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
-    <div className="min-h-screen theme-bg theme-text py-8 px-2 md:px-10 flex flex-col items-center justify-center relative overflow-hidden">
+    <section className="min-h-screen theme-bg theme-text py-8 px-2 md:px-10 flex flex-col items-center justify-center relative overflow-hidden">
       {/* Decorative background accent */}
       <div className={`${accentBg} w-96 h-96 top-[-5rem] left-[-5rem]`}></div>
       <div className={`${accentBg} w-80 h-80 bottom-[-4rem] right-[-4rem]`}></div>
@@ -105,7 +105,7 @@ const NeuroverseMainEventDetails: React.FC = () => {
           See All Events
         </motion.button>
       </motion.div>
-    </div>
+    </section>
   );
 };
 
