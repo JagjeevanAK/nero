@@ -127,14 +127,13 @@ const RegistrationSection: React.FC = () => {
                 <input type="tel" {...register('phone', { required: 'Phone number is required', pattern: { value: /^\d{10}$/, message: 'Please enter a valid 10-digit phone number' } })} className="form-input bg-white/10 theme-text placeholder:text-slate-400 focus:ring-2 focus:ring-blue-400" placeholder="10-digit number" />
                 {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone.message}</p>}
               </div>
-              {/* College */}
-              <div>
+              {/* College Name and Year of Study on same line */}
+              <div className="col-span-1 md:col-span-1 flex flex-col">
                 <label className="block text-base font-semibold mb-1 theme-text-secondary">College Name<span className="text-red-500">*</span></label>
                 <input {...register('college', { required: 'College name is required' })} className="form-input bg-white/10 theme-text placeholder:text-slate-400 focus:ring-2 focus:ring-blue-400" placeholder="Your college" />
                 {errors.college && <p className="text-red-400 text-xs mt-1">{errors.college.message}</p>}
               </div>
-              {/* Year of Study */}
-              <div className="md:col-span-2">
+              <div className="col-span-1 md:col-span-1 flex flex-col">
                 <label className="block text-base font-semibold mb-1 theme-text-secondary">Year of Study<span className="text-red-500">*</span></label>
                 <select {...register('yearOfStudy', { required: 'Please select your year of study' })} className="form-input bg-white/10 theme-text focus:ring-2 focus:ring-blue-400">
                   <option value="">--Select year--</option>
