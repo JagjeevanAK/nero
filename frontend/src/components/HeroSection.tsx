@@ -25,14 +25,16 @@ const HeroSection: React.FC = () => (
           alt="Neuroverse Logo"
           className="mx-auto mb-0 w-48 h-48 object-contain drop-shadow-lg"
         />
-        <motion.h1
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-4xl p-4 md:text-7xl font-bold mb-4 gradient-title-neuroverse font-mokoto"
         >
-          NEUROVERSE 2K25
-        </motion.h1>
+          <h1 className="glitch" data-text="NEUROVERSE">
+            NEUROVERSE
+          </h1>
+        </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

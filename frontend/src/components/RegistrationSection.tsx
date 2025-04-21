@@ -34,10 +34,10 @@ const RegistrationSection: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     const eventMap: Record<string, string> = {
-      'Group Discussion (GD)': 'Group Discussion',
-      'Technical Marathon': 'Technical Marathon',
-      'Dock The Flag': 'Dock The Flag',
-      'Box Cricket': 'Box Cricket'
+      "Group Discussion (GD)": "Group Discussion",
+      "Technical Marathon": "Technical Marathon",
+      "Dock The Flag": "Dock The Flag",
+      "Box Cricket": "Box Cricket",
     };
     const event_name = eventMap[data.event] || data.event;
     const formData: any = {
@@ -97,7 +97,7 @@ const RegistrationSection: React.FC = () => {
     >
       <div className="max-w-2xl w-full glass-card rounded-3xl p-0 shadow-2xl border border-white/20 backdrop-blur-lg relative overflow-hidden">
         {/* Page Title */}
-        <h2 className="font-mokoto text-4xl font-extrabold text-center gradient-title-neuroverse drop-shadow-lg tracking-tight pt-10 pb-2">
+        <h2 className="font-mokoto text-2xl sm:text-3xl md:text-4xl font-extrabold text-center gradient-title-neuroverse drop-shadow-lg tracking-tight pt-10 pb-2">
           Registration
         </h2>
         {/* Stepper Progress Bar */}
@@ -391,7 +391,11 @@ const RegistrationSection: React.FC = () => {
         {/* Loader overlay */}
         {isLoading && (
           <div className="absolute inset-0 bg-transparent flex items-center justify-center z-50">
-            <img src="/logo.png" alt="Loading..." className="w-16 h-16 animate-spin-slow" />
+            <img
+              src="/logo.png"
+              alt="Loading..."
+              className="w-16 h-16 animate-spin-slow"
+            />
           </div>
         )}
         {/* Info Box */}
