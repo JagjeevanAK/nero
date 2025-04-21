@@ -50,7 +50,7 @@ const Footer: React.FC = () => (
           alt="Neuroverse Logo"
           className="w-21 h-21 rounded-full mb-2"
         />
-        <span className="text-lg font-bold gradient-title-neuroverse">
+        <span className="font-mokoto text-lg font-bold gradient-title-neuroverse">
           Neuroverse 2K25
         </span>
       </div>
