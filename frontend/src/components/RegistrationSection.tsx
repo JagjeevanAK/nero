@@ -16,7 +16,73 @@ type FormData = {
 };
 
 const RegistrationSection: React.FC = () => {
-  // loading state to block UI during registration
+
+  const currency = "INR";
+  
+  // Initiates Razorpay payment using form data
+  const paymentHandler = async (rawData: FormData, payload: any) => {
+    // Calculate amount in paise
+    const transactionAmount = (events.find(e => e.title === rawData.event)?.fee || 0) * 100;
+    // Create order on backend
+    const orderRes = await fetch("/api/order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount: transactionAmount, currency, receipt: "receipt#1" })
+    });
+    // Parse backend response which returns { success, order }
+    const orderResult = await orderRes.json();
+    const orderId = orderResult.order?.id;
+    if (!orderId) {
+      throw new Error('Order creation failed');
+    }
+    // Prefill customer info and prepare payment options
+    const customerName = `${rawData.firstName} ${rawData.lastName}`;
+    const customerEmail = rawData.email;
+    const customerContact = rawData.phone;
+    // Use Vite env variable for Razorpay key
+    const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_ai9fPPLJsGpjyH";
+    const options: any = {
+      key: RAZORPAY_KEY,
+      amount: transactionAmount,
+      currency,
+      name: "Nueroverse",
+      description: "Event Registration Fee",
+      order_id: orderId,
+      prefill: { name: customerName, email: customerEmail, contact: customerContact },
+      notes: { reference: payload.reference || '' },
+      handler: async (razorpayResponse: any) => {
+        // After successful payment, submit registration
+        try {
+          const registerRes = await fetch("/api/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...payload, paymentId: razorpayResponse.razorpay_payment_id, orderId: razorpayResponse.razorpay_order_id, signature: razorpayResponse.razorpay_signature })
+          });
+          const result = await registerRes.json();
+          if (result.success) {
+            setSubmissionStatus({ message: "Registered successfully!", type: "success" });
+          } else {
+            setSubmissionStatus({ message: result.error || "Registration failed.", type: "error" });
+          }
+        } catch (err) {
+          setSubmissionStatus({ message: "Registration failed.", type: "error" });
+        } finally {
+          setIsLoading(false);
+        }
+      },
+      theme: { color: "#3399cc" }
+    };
+    // Handle failure scenario
+    const rzInstance = new (window as any).Razorpay(options);
+    rzInstance.on('payment.failed', (response: any) => {
+       const msg = response.error?.description || 'Payment failed';
+       setSubmissionStatus({ message: msg, type: 'error' });
+       setIsLoading(false);
+    });
+    // Open Razorpay checkout
+    rzInstance.open();
+  };
+
   const [isLoading, setIsLoading] = useState(false);
   const {
     register,
@@ -31,7 +97,7 @@ const RegistrationSection: React.FC = () => {
     type: "success" | "error";
   } | null>(null);
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = handleSubmit(async (data: FormData) => {
     setIsLoading(true);
     const eventMap: Record<string, string> = {
       "Group Discussion (GD)": "Group Discussion",
@@ -51,12 +117,10 @@ const RegistrationSection: React.FC = () => {
       reference: data.referenceCode || "",
     };
 
-    // include boxCricketPlayers array when applicable
     if (event_name === "Box Cricket") {
       formData.boxCricketPlayers = data.boxCricketPlayers || [];
     }
 
-    // include team members array when applicable
     if (data.teamMembers) {
       formData.teamMembers = data.teamMembers
         .split("\n")
@@ -65,27 +129,13 @@ const RegistrationSection: React.FC = () => {
     }
 
     try {
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
-      const result = await res.json();
-      if (result.success) {
-        alert("Registered successfully!");
-        window.location.reload();
-        return;
-      }
-      setSubmissionStatus({
-        message: result.error || "Registration failed.",
-        type: "error",
-      });
+      await paymentHandler(data, formData);
     } catch (error) {
       setSubmissionStatus({ message: "Registration failed.", type: "error" });
     } finally {
       setIsLoading(false);
     }
-  };
+  });
 
   const currentEventFee =
     events.find((e) => e.title === watch("event"))?.fee || 0;
@@ -120,7 +170,7 @@ const RegistrationSection: React.FC = () => {
             </span>
           </div>
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 px-8 py-4">
+        <form onSubmit={onSubmit} className="space-y-5 px-8 py-4">
           {/* block form when loading */}
           <div
             className={
@@ -385,7 +435,7 @@ const RegistrationSection: React.FC = () => {
             disabled={isLoading}
             className="w-full btn-primary text-lg font-bold shadow-lg py-4 mt-2 hover:scale-105 transition-transform"
           >
-            {isLoading ? "Registering..." : "Register"}
+            {isLoading ? "Processing Payment..." : "Pay & Register"}
           </button>
         </form>
         {/* Loader overlay */}

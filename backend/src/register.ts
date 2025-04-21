@@ -70,6 +70,9 @@ interface RegistrationDoc extends Document {
   teamMembers: string[];
   boxCricketPlayers: string[];
   reference: string;
+  paymentId: string;
+  orderId: string;
+  signature: string;
   createdAt: Date;
 }
 
@@ -84,6 +87,9 @@ const registrationSchema = new Schema<RegistrationDoc>({
   teamMembers: { type: [String], default: [] },
   boxCricketPlayers: { type: [String], default: [] },
   reference: { type: String, default: '' },
+  paymentId: { type: String, required: true },
+  orderId: { type: String, required: true },
+  signature: { type: String, required: true },
   createdAt: { type: Date, default: Date.now }
 });
 
@@ -91,7 +97,7 @@ const Registration = mongoose.model<RegistrationDoc>('Registration', registratio
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
-    const { firstName, lastName, email, phone, college, yearOfStudy, event_name, teamMembers, boxCricketPlayers, reference } = req.body;
+    const { firstName, lastName, email, phone, college, yearOfStudy, event_name, teamMembers, boxCricketPlayers, reference, paymentId, orderId, signature } = req.body;
     const normalizedData = {
       firstName: firstName.toLowerCase(),
       lastName: lastName.toLowerCase(),
@@ -103,6 +109,9 @@ export const registerUser = async (req: Request, res: Response) => {
       teamMembers: (teamMembers || []).map((n: string) => n.toLowerCase()),
       boxCricketPlayers: (boxCricketPlayers || []).map((n: string) => n.toLowerCase()),
       reference: (reference || '').toLowerCase(),
+      paymentId,
+      orderId,
+      signature,
     };
     const registration = new Registration(normalizedData);
     const saved = await registration.save();
