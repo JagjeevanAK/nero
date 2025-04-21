@@ -1,6 +1,5 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
 
 const HeroSection: React.FC = () => (
   <header className="min-h-screen flex items-center justify-center text-center relative overflow-hidden">

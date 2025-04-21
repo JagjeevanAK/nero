@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-import { Calendar, MapPin, Gift, Users, Award } from "lucide-react";
+import { Calendar, Gift, Users, Award } from "lucide-react";
 
 const accentBg =
   "bg-gradient-to-br from-blue-900/40 via-indigo-800/30 to-fuchsia-700/20 absolute -z-10 rounded-full blur-3xl opacity-60";
