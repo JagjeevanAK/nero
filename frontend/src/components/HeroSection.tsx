@@ -53,7 +53,7 @@ const HeroSection: React.FC = () => (
             background: "linear-gradient(to right,  #3f45f2, #ff28a9)",
           }}
         >
-          Explore Events
+          Explore 
         </motion.a>
       </div>
     </header>
