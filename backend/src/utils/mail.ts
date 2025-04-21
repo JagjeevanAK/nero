@@ -110,7 +110,6 @@ export async function sendWelcomeEmail(
       attempt++;
       console.error(`Error sending welcome email (attempt ${attempt}/${maxRetries}):`, err);
       if (attempt < maxRetries) {
-        // exponential backoff
         const delay = Math.pow(2, attempt) * 1000;
         await new Promise(res => setTimeout(res, delay));
       } else {

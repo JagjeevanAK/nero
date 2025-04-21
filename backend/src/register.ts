@@ -5,19 +5,15 @@ import { sendWelcomeEmail } from './utils/mail';
 
 dotenv.config();
 
-// Improved MongoDB connection handling to prevent "Topology is closed" errors
 async function connectToMongoDB() {
   try {
     if (mongoose.connection.readyState === 1) {
-      // If already connected, don't reconnect
       console.log('MongoDB connection already established');
       return;
     }
     
-    // Connect to MongoDB with the event database
     await mongoose.connect(process.env.MONGO_URI as string, {
       dbName: 'event',
-      // Add Mongoose 7+ connection options for serverless environments
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
       maxPoolSize: 10,
@@ -26,12 +22,10 @@ async function connectToMongoDB() {
     
     console.log('Connected to MongoDB database: event');
     
-    // Handle connection errors
     mongoose.connection.on('error', (err) => {
       console.error('MongoDB connection error:', err);
     });
     
-    // Handle disconnection (important for serverless)
     mongoose.connection.on('disconnected', () => {
       console.log('MongoDB disconnected');
     });
@@ -116,7 +110,6 @@ export const registerUser = async (req: Request, res: Response) => {
     const registration = new Registration(normalizedData);
     const saved = await registration.save();
     
-    // send welcome email with full name and await it so function doesn't terminate early
     const fullName = `${saved.firstName} ${saved.lastName}`;
     await sendWelcomeEmail(
       saved.email,

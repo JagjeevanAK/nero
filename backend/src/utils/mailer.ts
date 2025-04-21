@@ -14,7 +14,6 @@ if (!emailUser || !emailPass) {
 
 let transporter: Transporter;
 
-// Disable pooling to ensure fresh SMTP handshake on each send; increase timeouts
 transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 587,

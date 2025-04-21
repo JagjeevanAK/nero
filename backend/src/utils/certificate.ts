@@ -50,16 +50,12 @@ export const generateCertificate: RequestHandler = async (req, res, next) => {
     }
 
     const { firstName, lastName, email, phone, event: eventName } = req.body;
-    // Normalize for DB lookup
     const firstNameLower = (firstName as string).toLowerCase();
     const lastNameLower = (lastName as string).toLowerCase();
     const emailLower = (email as string).toLowerCase();
     const eventLower = (eventName as string).toLowerCase();
-    // Title-case for certificate display
     const toTitle = (s: string) => s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
     const fullNameTitle = `${toTitle(firstName)} ${toTitle(lastName)}`;
-
-    // Map display titles to DB event_name values
     const eventMap: Record<string, string> = {
         'Group Discussion (GD)': 'Group Discussion',
         'Technical Marathon': 'Technical Marathon',
@@ -74,12 +70,9 @@ export const generateCertificate: RequestHandler = async (req, res, next) => {
     }
 
     try {
-        // Ensure DB connection is active before querying
         await ensureDbConnection();
 
-        // For Box Cricket, verify registration by email/phone/event only; skip name match
         const baseQuery = { email: emailLower, phone: phone.toLowerCase(), event_name: dbEventName.toLowerCase() };
-        // if not Box Cricket, include name in lookup
         const query = eventLower === 'box cricket'
           ? baseQuery
           : { ...baseQuery, firstName: firstNameLower, lastName: lastNameLower };

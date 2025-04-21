@@ -6,7 +6,6 @@ export const verifyPayment: RequestHandler = async (req, res, next) => {
     const razorpay_payment_id = req.body.razorpay_payment_id || req.body.paymentId;
     const razorpay_signature = req.body.razorpay_signature || req.body.signature;
 
-    // Get Razorpay secret from environment
     const secret = process.env.RAZORPAY_KEY_SECRET;
     if (!secret) {
         res.status(500).json({ success: false, error: 'Payment secret missing' });
