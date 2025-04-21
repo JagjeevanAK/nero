@@ -1,5 +1,5 @@
 import React from 'react';
-import EventDetails from './components/EventDetails';
+import EventDetails from '../components/EventDetails';
 import { Flag } from 'lucide-react';
 
 const LinuxQuizDetails: React.FC = () => (

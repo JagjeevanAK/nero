@@ -1,5 +1,5 @@
 import React from 'react';
-import EventDetails from './components/EventDetails';
+import EventDetails from '../components/EventDetails';
 import { Trophy } from 'lucide-react';
 
 const BoxCricketDetails: React.FC = () => (

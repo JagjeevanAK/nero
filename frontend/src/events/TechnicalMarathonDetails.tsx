@@ -1,5 +1,5 @@
 import React from 'react';
-import EventDetails from './components/EventDetails';
+import EventDetails from '../components/EventDetails';
 import { Terminal } from 'lucide-react';
 
 const TechnicalMarathonDetails: React.FC = () => (
