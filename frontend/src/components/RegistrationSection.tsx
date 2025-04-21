@@ -78,7 +78,7 @@ const RegistrationSection: React.FC = () => {
     <section id="registration" className="min-h-screen w-full py-20 px-4 flex items-center justify-center">
       <div className="max-w-2xl w-full glass-card rounded-3xl p-0 shadow-2xl border border-white/20 backdrop-blur-lg relative overflow-hidden">
         {/* Page Title */}
-        <h2 className="text-4xl font-extrabold text-center gradient-title-neuroverse drop-shadow-lg tracking-tight pt-10 pb-2">
+        <h2 className="font-mokoto text-4xl font-extrabold text-center gradient-title-neuroverse drop-shadow-lg tracking-tight pt-10 pb-2">
           Registration
         </h2>
         {/* Stepper Progress Bar */}
