@@ -62,7 +62,7 @@ const RegistrationSection: React.FC = () => {
           if (result.success) {
             setSubmissionStatus({ message: "Registered successfully!", type: "success" });
             // reload the page after 7 seconds
-            setTimeout(() => window.location.reload(), 7000);
+            setTimeout(() => window.location.reload(), 3000);
           } else {
             setSubmissionStatus({ message: result.error || "Registration failed.", type: "error" });
           }
