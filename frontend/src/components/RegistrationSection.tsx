@@ -73,7 +73,7 @@ const RegistrationSection: React.FC = () => {
           setIsLoading(false);
         }
       },
-      theme: { color: "#3399cc" }
+      theme: { color: "#cc8533" }
     };
     // Handle failure scenario
     const rzInstance = new (window as any).Razorpay(options);
