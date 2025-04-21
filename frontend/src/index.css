@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'Mokoto';
-  src: url('/font/mokoto-regular-glitch.ttf') format('truetype');
+  font-family: "Mokoto";
+  src: url("/font/mokoto-regular-glitch.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
@@ -13,23 +13,25 @@
   }
 
   body {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
   }
 
   :root {
-    --bg-gradient: linear-gradient(to bottom right, #0f172a, #1e293b);
+    /* --bg-gradient: linear-gradient(to bottom right, #0f172a, #1e293b); */
+    --bg-gradient: #1e293b;
     --text-primary: #f8fafc;
     --text-secondary: #cbd5e1;
     --card-bg: rgba(255, 255, 255, 0.1);
     --card-border: rgba(255, 255, 255, 0.2);
-    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1);
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2),
+      0 2px 4px -1px rgba(0, 0, 0, 0.1);
     --input-bg: rgba(255, 255, 255, 0.05);
     --input-border: rgba(255, 255, 255, 0.1);
     --input-focus: #60a5fa;
   }
 
   .font-mokoto {
-    font-family: 'Mokoto', 'Inter', sans-serif !important;
+    font-family: "Mokoto", "Inter", sans-serif !important;
     font-weight: normal !important;
     font-style: normal !important;
   }
@@ -67,22 +69,32 @@
   /* Gradient text classes for custom titles */
   .gradient-title-indie {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(90deg, #994ECC, #3E187A);
+    background-image: linear-gradient(90deg, #994ecc, #3e187a);
   }
 
   .gradient-title-rowling {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(90deg, #A5A4CB, #8989BB);
+    background-image: linear-gradient(90deg, #a5a4cb, #8989bb);
   }
 
   .gradient-title-anonymous {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(90deg, #647DEE, #7F53AC);
+    background-image: linear-gradient(90deg, #647dee, #7f53ac);
   }
 
   .gradient-title-neuroverse {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(90deg, #4f3bc0, #0066ff, #FF28A9, #D12DFF, #7C3DF2, #3F45F2, #00CFFF, #00FFB8);
+    background-image: linear-gradient(
+      90deg,
+      #4f3bc0,
+      #0066ff,
+      #ff28a9,
+      #d12dff,
+      #7c3df2,
+      #3f45f2,
+      #00cfff,
+      #00ffb8
+    );
   }
 
   .form-input {

@@ -1,6 +1,6 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import React from "react";
+import { motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 const HeroSection: React.FC = () => (
   <header className="min-h-screen flex items-center justify-center text-center relative overflow-hidden">
@@ -14,7 +14,11 @@ const HeroSection: React.FC = () => (
       playsInline
     />
     <div className="relative z-10 px-4 flex flex-col items-center mt-[-60px] md:mt-[-100px]">
-      <img src="/logo.png" alt="Neuroverse Logo" className="mx-auto mb-0 w-48 h-48 object-contain drop-shadow-lg" />
+      <img
+        src="/logo.png"
+        alt="Neuroverse Logo"
+        className="mx-auto mb-0 w-48 h-48 object-contain drop-shadow-lg"
+      />
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -36,9 +40,12 @@ const HeroSection: React.FC = () => (
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.4 }}
         href="#main-event"
-        className="btn-primary inline-flex items-center mb-4"
+        className="inline-flex items-center mb-4 rounded-3xl px-6 py-3 text-white font-medium transition-all duration-300 shadow-lg"
+        style={{
+          background: "linear-gradient(to right,  #3f45f2, #ff28a9)",
+        }}
       >
-        Explore Events <ChevronDown className="ml-2" />
+        Explore Events
       </motion.a>
     </div>
   </header>
