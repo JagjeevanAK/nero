@@ -39,7 +39,7 @@ const EventDetailHeader: React.FC<
     <span className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-white/20 shadow-lg mb-2">
       <Icon className="w-12 h-12 text-white drop-shadow-md" />
     </span>
-    <h1 className="text-4xl font-extrabold gradient-title-neuroverse text-center drop-shadow-lg mb-2">
+    <h1 className="font-mokoto text-4xl font-extrabold gradient-title-neuroverse text-center drop-shadow-lg mb-2">
       {title}
     </h1>
     <div className="w-24 h-1 rounded-full bg-gradient-to-r from-blue-400 via-fuchsia-400 to-indigo-400 mb-2"></div>

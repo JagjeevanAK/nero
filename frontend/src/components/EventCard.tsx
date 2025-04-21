@@ -43,7 +43,7 @@ const EventCard: React.FC<EventCardProps> = ({
           ₹{event.fee}
         </span>
       </div>
-      <h3 className="text-2xl font-extrabold mb-2 text-center text-white drop-shadow-lg tracking-tight leading-snug">
+      <h3 className="font-mokoto text-2xl font-extrabold mb-2 text-center text-white drop-shadow-lg tracking-tight leading-snug">
         {event.title}
       </h3>
       <p className="text-white/95 text-center mb-6 text-base font-medium leading-relaxed drop-shadow-sm">
