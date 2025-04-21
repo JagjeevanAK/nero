@@ -26,7 +26,7 @@ const NeuroverseMainEventDetails: React.FC = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.7 }}
         >
-          <h2 className="text-3xl md:text-4xl font-extrabold text-center gradient-title-neuroverse drop-shadow-lg mb-2">
+          <h2 className="font-mokoto text-3xl md:text-4xl font-extrabold text-center gradient-title-neuroverse drop-shadow-lg mb-2">
             The Grand Tech & Sports Fest
           </h2>
           <span className="text-base md:text-lg">Organized by the Department of Artificial Intelligence and Data Science</span>

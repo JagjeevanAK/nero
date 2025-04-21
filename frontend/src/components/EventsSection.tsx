@@ -108,7 +108,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onGDMoreDetails, onBoxMor
       <div className="absolute left-0 top-0 w-80 h-80 bg-gradient-to-br from-blue-600/30 via-fuchsia-500/20 to-indigo-700/20 rounded-full blur-3xl opacity-50 -z-10"></div>
       <div className="absolute right-0 bottom-0 w-72 h-72 bg-gradient-to-tr from-yellow-400/20 via-pink-500/20 to-blue-400/20 rounded-full blur-3xl opacity-40 -z-10"></div>
       <div className="w-full max-w-7xl">
-        <h2 className="text-4xl font-bold text-center mb-16 gradient-text drop-shadow-lg gradient-title-neuroverse tracking-tight pt-10">Our Events</h2>
+        <h2 className="font-mokoto text-4xl font-bold text-center mb-16 gradient-text drop-shadow-lg gradient-title-neuroverse tracking-tight pt-10">Our Events</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {events.map((event) => (
             <motion.div
