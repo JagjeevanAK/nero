@@ -82,7 +82,7 @@ const RegistrationSection: React.FC = () => {
           Registration
         </h2>
         {/* Stepper Progress Bar */}
-        {/* <div className="flex items-center justify-center gap-4 py-4">
+        <div className="flex items-center justify-center gap-4 py-4">
           <div className="flex flex-col items-center">
             <div className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold text-lg shadow-lg border-4 border-blue-300">1</div>
             <span className="mt-2 text-xs font-semibold theme-text-secondary">Personal Info</span>
@@ -92,7 +92,7 @@ const RegistrationSection: React.FC = () => {
             <div className="w-10 h-10 flex items-center justify-center rounded-full bg-fuchsia-500 text-white font-bold text-lg shadow-lg border-4 border-fuchsia-300">2</div>
             <span className="mt-2 text-xs font-semibold theme-text-secondary">Event Details</span>
           </div>
-        </div> */}
+        </div>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-10 px-8 py-10 md:py-12">
           {/* block form when loading */}
           <div className={isLoading ? 'absolute inset-0 bg-black bg-opacity-50 z-50 pointer-events-none' : ''}></div>
