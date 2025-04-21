@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 const HeroSection: React.FC = () => (
   <>
     {/* Caution Message */}
-    <div className="fixed max-w-140 top-4 mx-10 bg-red-600 text-white text-sm font-bold px-4 py-2 rounded-lg shadow-lg z-50">
+    {/* <div className="fixed max-w-140 top-4 mx-10 bg-red-600 text-white text-sm font-bold px-4 py-2 rounded-lg shadow-lg z-50">
       ⚠️ Caution: Don't register yet, the website is under maintenance!
       Registrations start soon!!
-    </div>
+    </div> */}
 
     <header className="min-h-screen flex items-center justify-center text-center relative overflow-hidden">
       {/* Video background */}
