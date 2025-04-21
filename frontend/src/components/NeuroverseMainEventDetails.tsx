@@ -37,29 +37,29 @@ const NeuroverseMainEventDetails: React.FC = () => {
             Science
           </span>
         </motion.p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-          <motion.div className="flex items-center justify-center gap-4 p-4 rounded-lg bg-white/5 border border-white/10 shadow-sm m-auto w-90">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-4">
+          <motion.div className="flex items-center justify-center gap-4 p-4 rounded-lg bg-white/5 border border-white/10 shadow-sm mx-auto w-full sm:w-80">
             <Gift className="w-8 h-8 text-pink-400" />
             <div>
               <div className="font-bold text-lg">Total Prizes</div>
               <div className="text-blue-400 font-semibold text-xl">₹16,000</div>
             </div>
           </motion.div>
-          <motion.div className="flex items-center gap-4 p-4 justify-center rounded-lg bg-white/5 border border-white/10 shadow-sm m-auto w-90">
+          <motion.div className="flex items-center gap-4 p-4 justify-center rounded-lg bg-white/5 border border-white/10 shadow-sm mx-auto w-full sm:w-80">
             <Calendar className="w-8 h-8 text-indigo-400" />
             <div>
               <div className="font-bold text-lg">Dates</div>
               <div className="text-blue-200">26 April 2025</div>
             </div>
           </motion.div>
-          <motion.div className="flex items-center gap-4 p-4 justify-center rounded-lg bg-white/5 border border-white/10 shadow-sm m-auto w-90">
-            <Calendar className="w-8 h-8 text-indigo-400" />
+          <motion.div className="flex items-center gap-4 p-4 justify-center rounded-lg bg-white/5 border border-white/10 shadow-sm mx-auto w-full sm:w-80">
+            <MapPin className="w-8 h-8 text-indigo-400" />
             <div>
               <div className="font-bold text-lg">Venue</div>
               <div className="text-blue-200">ADCET, Ashta</div>
             </div>
           </motion.div>
-          <motion.div className="flex items-center justify-center gap-4 p-4 rounded-lg bg-white/5 border border-white/10 shadow-sm m-auto w-90">
+          <motion.div className="flex items-center justify-center gap-4 p-4 rounded-lg bg-white/5 border border-white/10 shadow-sm mx-auto w-full sm:w-80">
             <Award className="w-8 h-8 text-yellow-400" />
             <div>
               <div className="font-bold text-lg">Timing</div>
@@ -79,9 +79,15 @@ const NeuroverseMainEventDetails: React.FC = () => {
             <h2 className="text-xl font-semibold">Event Coordinators</h2>
           </div>
           <ul className="list-disc list-inside theme-text-secondary ml-6">
-            <li><b>Dr. A. A. Shaikh</b> (HOD, AIDS Dept.)</li>
-            <li><b>Prof. V. N. Honmane</b> (Faculty Coordinator)</li>
-            <li><b>Student Coordinators:</b></li>
+            <li>
+              <b>Dr. A. A. Shaikh</b> (HOD, AIDS Dept.)
+            </li>
+            <li>
+              <b>Prof. V. N. Honmane</b> (Faculty Coordinator)
+            </li>
+            <li>
+              <b>Student Coordinators:</b>
+            </li>
             <ul className="ml-8 list-disc">
               <li>Pranav Patil</li>
               <li>Jagjeevan Kashid</li>
