@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { events } from '../data/events';
-import EventCard from './EventCard';
+import React, { useState } from "react";
+import { events } from "../data/events";
+import EventCard from "./EventCard";
 
 interface EventsSectionProps {
   onGDMoreDetails: () => void;
-  onBoxMoreDetails: () => void;
+  onBGMIMoreDetails: () => void;
   onLinuxMoreDetails: () => void;
   onTechMarathonMoreDetails: () => void;
 }
 
 const EventsSection: React.FC<EventsSectionProps> = ({
   onGDMoreDetails,
-  onBoxMoreDetails,
+  onBGMIMoreDetails,
   onLinuxMoreDetails,
   onTechMarathonMoreDetails,
 }) => {
@@ -35,10 +35,19 @@ const EventsSection: React.FC<EventsSectionProps> = ({
 
   const rawCertFlag = import.meta.env.VITE_CERTIFICATE_DOWNLOAD_ENABLED;
 
-  const certEnabled = rawCertFlag === undefined ? true : rawCertFlag.toUpperCase() === 'ON';
+  const certEnabled =
+    rawCertFlag === undefined ? true : rawCertFlag.toUpperCase() === "ON";
 
-  const handleCertificateDownload = async (eventTitle: string, details: { firstName: string; lastName: string; email: string; phone: string; }) => {
-    setDownloadStatus('Downloading certificate...');
+  const handleCertificateDownload = async (
+    eventTitle: string,
+    details: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      phone: string;
+    }
+  ) => {
+    setDownloadStatus("Downloading certificate...");
 
     setDownloadError(null);
     const { firstName, lastName, email, phone } = details;
@@ -163,7 +172,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({
             const handleDetailsClick = () => {
               window.scrollTo({ top: 0, behavior: "instant" });
               if (event.title === "Group Discussion (GD)") onGDMoreDetails();
-              else if (event.title === "Box Cricket") onBoxMoreDetails();
+              else if (event.title === "BGMI") onBGMIMoreDetails();
               else if (event.title === "Dock The Flag") onLinuxMoreDetails();
               else if (event.title === "Technical Marathon")
                 onTechMarathonMoreDetails();
