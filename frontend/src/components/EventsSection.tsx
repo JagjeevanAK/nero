@@ -20,7 +20,6 @@ const EventsSection: React.FC<EventsSectionProps> = ({ onGDMoreDetails, onBoxMor
 
   // Toggle download button visibility based on env flag
   const rawCertFlag = import.meta.env.VITE_CERTIFICATE_DOWNLOAD_ENABLED;
-  console.log('VITE_CERTIFICATE_DOWNLOAD_ENABLED:', rawCertFlag);
   // Default to true if flag is undefined (e.g., in some dev setups)
   const certEnabled = rawCertFlag === undefined ? true : rawCertFlag.toUpperCase() === 'ON';
 

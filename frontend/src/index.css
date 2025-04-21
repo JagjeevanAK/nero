@@ -1,4 +1,9 @@
-@import url('https://fonts.cdnfonts.com/css/mokoto');
+@font-face {
+  font-family: 'Mokoto';
+  src: url('/font/mokoto-regular-glitch.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 @tailwind utilities;
 @import "tailwindcss";
 
