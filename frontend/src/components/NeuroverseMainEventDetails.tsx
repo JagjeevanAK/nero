@@ -79,15 +79,9 @@ const NeuroverseMainEventDetails: React.FC = () => {
             <h2 className="text-xl font-semibold">Event Coordinators</h2>
           </div>
           <ul className="list-disc list-inside theme-text-secondary ml-6">
-            <li>
-              <b>Dr. A. A. Shaikh</b> (HOD, AIDS Dept.)
-            </li>
-            <li>
-              <b>Prof. V. N. Honmane</b> (Faculty Coordinator)
-            </li>
-            <li>
-              <b>Student Coordinators:</b>
-            </li>
+            <li><b>Dr. A. A. Shaikh</b> (HOD, AIDS Dept.)</li>
+            <li><b>Prof. V. N. Honmane</b> (Faculty Coordinator)</li>
+            <li><b>Student Coordinators:</b></li>
             <ul className="ml-8 list-disc">
               <li>Pranav Patil</li>
               <li>Jagjeevan Kashid</li>

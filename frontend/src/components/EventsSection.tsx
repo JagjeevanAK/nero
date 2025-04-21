@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { events } from "../data/events";
-import EventCard from "./EventCard";
+import React, { useState } from 'react';
+import { events } from '../data/events';
+import EventCard from './EventCard';
 
 interface EventsSectionProps {
   onGDMoreDetails: () => void;
@@ -34,19 +34,12 @@ const EventsSection: React.FC<EventsSectionProps> = ({
   const [boxPlayers, setBoxPlayers] = useState<string[]>(Array(7).fill(""));
 
   const rawCertFlag = import.meta.env.VITE_CERTIFICATE_DOWNLOAD_ENABLED;
-  const certEnabled =
-    rawCertFlag === undefined ? true : rawCertFlag.toUpperCase() === "ON";
 
-  const handleCertificateDownload = async (
-    eventTitle: string,
-    details: {
-      firstName: string;
-      lastName: string;
-      email: string;
-      phone: string;
-    }
-  ) => {
-    setDownloadStatus("Downloading certificate...");
+  const certEnabled = rawCertFlag === undefined ? true : rawCertFlag.toUpperCase() === 'ON';
+
+  const handleCertificateDownload = async (eventTitle: string, details: { firstName: string; lastName: string; email: string; phone: string; }) => {
+    setDownloadStatus('Downloading certificate...');
+
     setDownloadError(null);
     const { firstName, lastName, email, phone } = details;
     try {

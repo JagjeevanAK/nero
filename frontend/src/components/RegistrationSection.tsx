@@ -34,10 +34,10 @@ const RegistrationSection: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     const eventMap: Record<string, string> = {
-      "Group Discussion (GD)": "Group Discussion",
-      "Technical Marathon": "Technical Marathon",
-      "Dock The Flag": "Dock The Flag",
-      "Box Cricket": "Box Cricket",
+      'Group Discussion (GD)': 'Group Discussion',
+      'Technical Marathon': 'Technical Marathon',
+      'Dock The Flag': 'Dock The Flag',
+      'Box Cricket': 'Box Cricket'
     };
     const event_name = eventMap[data.event] || data.event;
     const formData: any = {
@@ -391,11 +391,7 @@ const RegistrationSection: React.FC = () => {
         {/* Loader overlay */}
         {isLoading && (
           <div className="absolute inset-0 bg-transparent flex items-center justify-center z-50">
-            <img
-              src="/logo.png"
-              alt="Loading..."
-              className="w-16 h-16 animate-spin-slow"
-            />
+            <img src="/logo.png" alt="Loading..." className="w-16 h-16 animate-spin-slow" />
           </div>
         )}
         {/* Info Box */}
