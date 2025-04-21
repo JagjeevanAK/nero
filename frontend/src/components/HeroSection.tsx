@@ -19,7 +19,7 @@ const HeroSection: React.FC = () => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="text-6xl md:text-7xl font-bold mb-4 gradient-title-neuroverse font-mokoto"
+        className="text-4xl p-4 md:text-7xl font-bold mb-4 gradient-title-neuroverse font-mokoto"
       >
         NEUROVERSE 2K25
       </motion.h1>
