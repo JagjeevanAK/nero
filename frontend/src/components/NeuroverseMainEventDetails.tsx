@@ -49,7 +49,7 @@ const NeuroverseMainEventDetails: React.FC = () => {
             <Calendar className="w-8 h-8 text-indigo-400" />
             <div>
               <div className="font-bold text-lg">Dates</div>
-              <div className="text-blue-200">26 April 2025</div>
+              <div className="text-blue-200">30 April 2025</div>
             </div>
           </motion.div>
           <motion.div className="flex items-center gap-4 p-4 justify-center rounded-lg bg-white/5 border border-white/10 shadow-sm mx-auto w-full sm:w-80">
