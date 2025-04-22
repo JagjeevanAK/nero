@@ -22,7 +22,7 @@ const CodeMarathonDetails: React.FC = () => (
           <ul className="list-disc list-inside mb-4 theme-text-secondary">
             <li>A multi-round technical treasure hunt involving coding, logic, and team strategy.</li>
             <li>Progress through different levels by solving problems and uncovering clues.</li>
-            <li>All coding problems will be based on the C++ programming language.</li>
+            <li>All coding problems will be based on the C programming language for round 1 and after that there will C++, C, Python.</li>
           </ul>
         )
       },

@@ -81,7 +81,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({
         window.URL.revokeObjectURL(url);
         setDownloadError(null);
         setDownloadStatus(null);
-        setIsModalOpen(false);
+        // Removed return to allow subsequent downloads
       } else {
         const errData = await res.json().catch(() => null);
         const msg = errData?.error || "Certificate download failed";
@@ -153,6 +153,9 @@ const EventsSection: React.FC<EventsSectionProps> = ({
           phone: formFields.phone,
         });
       }
+      setDownloadStatus(null);
+      setIsModalOpen(false);
+      return;
     } else if (modalEvent === "BGMI Dominator") {
       for (const playerName of bgmiPlayers) {
         const parts = playerName.trim().split(" ");
