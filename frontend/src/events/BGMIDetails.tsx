@@ -10,7 +10,6 @@ const BGMIDetails: React.FC = () => (
     details={
       <>
         <p className="mb-2">Date: 30 April 2025</p>
-        <p className="mb-4">Venue: To be announced soon.</p>
         <p className="mb-6">
           A high-octane competitive eSports event for BGMI enthusiasts! Form your squad, lock and load, and battle it out to become the ultimate dominator.
         </p>
