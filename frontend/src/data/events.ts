@@ -50,7 +50,7 @@ export const events = [
     title: "Box Cricket",
     icon: Trophy,
     fee: 400,
-    description: "Battle for Glory, Master the Arena! Join the ultimate BGMI showdown and prove your skills.",
+    description: "Thrilling 4-over cricket battles with tight rules, knockout format, and glory for the last team standing!",
     requiresTeam: true,
     accent: 'from-grey-500 to-orange-500',
     badge: 'Team',
