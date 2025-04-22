@@ -20,6 +20,7 @@ transporter = nodemailer.createTransport({
   secure: false,
   requireTLS: true,
   auth: { user: emailUser, pass: emailPass },
+  from: emailUser as string,
   pool: false,
   connectionTimeout: 60000,  // 60s
   greetingTimeout: 60000,    // 60s
