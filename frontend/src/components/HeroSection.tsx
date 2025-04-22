@@ -29,7 +29,7 @@ const HeroSection: React.FC = () => (
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-4xl p-4 md:text-7xl font-bold mb-4 gradient-title-neuroverse font-mokoto"
+          className="text-5xl p-4 md:text-7xl font-bold mb-4 gradient-title-neuroverse font-mokoto"
         >
           <h1 className="glitch" data-text="NEUROVERSE">
             NEUROVERSE
@@ -39,7 +39,7 @@ const HeroSection: React.FC = () => (
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-2xl md:text-3xl mb-8 theme-text-secondary font-mokoto"
+          className="text-3xl md:text-3xl mb-8 theme-text-secondary font-mokoto"
         >
           Run The Mind
         </motion.h2>
@@ -48,7 +48,7 @@ const HeroSection: React.FC = () => (
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
           href="#main-event"
-          className="inline-flex items-center mb-4 rounded-3xl px-6 py-3 text-white font-medium transition-all duration-300 shadow-lg"
+          className="inline-flex items-center mb-4 rounded-3xl text-xl px-20 py-3 text-white font-medium transition-all duration-300 shadow-lg"
           style={{
             background: "linear-gradient(to right,  #3f45f2, #ff28a9)",
           }}
