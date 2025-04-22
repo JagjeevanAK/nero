@@ -5,7 +5,7 @@ export const events = [
     id: 1,
     title: "Prompt War",
     icon: MessageCircle,
-    fee: 50,
+    fee: 80,
     description: "Prompt & Paint is a creative AI art challenge where your words become brushstrokes — craft the best prompt to generate stunning AI visuals!",
     requiresTeam: false,
     accent: 'from-grey-500 to-pink-500',
