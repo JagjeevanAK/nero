@@ -476,6 +476,12 @@ const RegistrationSection: React.FC = () => {
             </span>
           </div>
         </div>
+        {/* Email Caution Notice */}
+        {submissionStatus?.type === 'success' && (
+          <div className="mx-8 mb-4 p-4 rounded-xl bg-yellow-900/20 text-yellow-300 border border-yellow-400/20 text-sm text-center glass-card">
+            Please check your spam folder for the confirmation email. If it’s not received, mark it as not spam or contact us.
+          </div>
+        )}
         {/* Submission Status */}
         {submissionStatus && (
           <div
