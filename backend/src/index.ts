@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.post('/api/register', verifyPayment, checkDuplicate, registerUser);
+app.post('/api/register', checkDuplicate, verifyPayment, registerUser);
 app.post('/api/download-certificate', generateCertificate);
 app.put('/api/download-certificate', generateCertificate);
 app.post('/api/order', orderRazorpay);
