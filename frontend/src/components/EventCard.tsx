@@ -73,7 +73,7 @@ const EventCard: React.FC<EventCardProps> = ({
     </div>
     <div className="flex flex-col mt-4 gap-5">
       <button
-        className={`w-full font-bold rounded-lg py-2 text-base shadow-xl transition-all duration-300 border-0 outline-none bg-gradient-to-r ${
+        className={`w-full font-bold rounded-lg py-3 text-base shadow-xl transition-all duration-300 border-0 outline-none bg-gradient-to-r ${
           event.accent
         } hover:bg-gradient-to-l ${event.accent
           .split(" ")
