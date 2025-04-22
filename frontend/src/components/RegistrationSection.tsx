@@ -54,7 +54,7 @@ const RegistrationSection: React.FC = () => {
           const result = await registerRes.json();
           if (result.success) {
             setSubmissionStatus({ message: "Registered successfully!", type: "success" });
-            setTimeout(() => window.location.reload(), 3000);
+            setTimeout(() => window.location.reload(), 1500);
           } else {
             setSubmissionStatus({ message: result.error || "Registration failed.", type: "error" });
           }
