@@ -10,7 +10,6 @@ const PromptWarDetails: React.FC = () => (
     details={
       <>
         <p className="mb-2">30 April 2025</p>
-        <p className="mb-4">Venue: To be announced soon.</p>
         <p className="mb-6">
           Put your creativity to the test—craft AI art prompts on the spot in solo and team rounds. May the best prompt win!
         </p>
