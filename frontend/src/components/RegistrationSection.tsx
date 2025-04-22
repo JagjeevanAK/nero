@@ -360,7 +360,8 @@ const RegistrationSection: React.FC = () => {
           </div>
           {/* Players input for team events */}
           {selectedEvent &&
-            events.find((e) => e.title === selectedEvent)?.requiresTeam && (
+            events.find((e) => e.title === selectedEvent)?.requiresTeam &&
+            selectedEvent !== "Code Marathon" && (
             <div className="bg-blue-900/10 border border-blue-400/20 rounded-xl p-4 mt-2">
               <label className="block text-base font-semibold mb-2 text-blue-300">
                 {selectedEvent === "Box Cricket"
@@ -398,7 +399,7 @@ const RegistrationSection: React.FC = () => {
           {/* Team Members textarea for other team events */}
           {selectedEvent &&
             events.find((e) => e.title === selectedEvent)?.requiresTeam &&
-            !["Box Cricket", "BGMI Dominator"].includes(selectedEvent) && (
+            !["Box Cricket", "BGMI Dominator", "Code Marathon"].includes(selectedEvent) && (
             <div>
               <label className="block text-base font-semibold mb-1 theme-text-secondary">
                 Team Members<span className="text-red-500">*</span>
