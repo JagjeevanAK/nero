@@ -3,6 +3,7 @@ import { createCanvas, loadImage, registerFont } from 'canvas';
 import path from 'path';
 import { Registration } from '../register';
 import mongoose, { ConnectionStates } from 'mongoose';
+import archiver from 'archiver';
 
 registerFont(path.join(__dirname, '..', '..', 'templates', 'OpenSans-Regular.ttf'), { family: 'Open Sans' });
 
@@ -49,7 +50,8 @@ export const generateCertificate: RequestHandler = async (req, res, next) => {
         return;
     }
 
-    const { firstName, lastName, email, phone, event: eventName } = req.body;
+    const { firstName, lastName, email, phone, event: eventName, players } = req.body;
+    const isBatch = Array.isArray(players) && players.length > 1;
     const firstNameLower = (firstName as string).toLowerCase();
     const lastNameLower = (lastName as string).toLowerCase();
     const emailLower = (email as string).toLowerCase();
@@ -65,8 +67,12 @@ export const generateCertificate: RequestHandler = async (req, res, next) => {
     };
     const dbEventName = eventMap[eventName] || eventName;
 
-    if (!firstName || !lastName || !email || !phone || !eventName) {
-        res.status(400).json({ success: false, error: 'First name, last name, email, phone, and event are required' });
+    // Ensure required common fields
+    if (!email || !phone || !eventName || !Array.isArray(players) && (!firstName || !lastName)) {
+        const msg = isBatch
+          ? 'Email, phone, event, and players are required'  
+          : 'First name, last name, email, phone, and event are required';
+        res.status(400).json({ success: false, error: msg });
         return;
     }
 
@@ -79,17 +85,18 @@ export const generateCertificate: RequestHandler = async (req, res, next) => {
             res.status(404).json({ success: false, error: 'User not registered for this event' });
             return;
         }
-        // For team events (Box Cricket & BGMI Dominator), verify member name exists
-        const isTeamEvent = ['box cricket', 'bgmi dominator'].includes(eventLower);
-        if (isTeamEvent) {
-            const fullname = `${firstNameLower} ${lastNameLower}`;
-            // players array in registration holds lowercase names
-            if (!existing.players.includes(fullname)) {
-                res.status(404).json({ success: false, error: 'Player name not found in registered team' });
+
+        // Verify registration exists
+        // For batch team events, ensure all submitted players match the registered team
+        if (isBatch) {
+            const lowerPlayers = (players as string[]).map((p) => p.toLowerCase().trim());
+            const missing = lowerPlayers.filter((p) => !existing.players.includes(p));
+            if (missing.length > 0) {
+                res.status(404).json({ success: false, error: `Player(s) not found: ${missing.join(', ')}` });
                 return;
             }
         } else {
-            // for single events, verify name matches registration fields
+            // Single event: verify first and last name match
             if (existing.firstName !== firstNameLower || existing.lastName !== lastNameLower) {
                 res.status(404).json({ success: false, error: 'Name does not match registered record' });
                 return;
@@ -101,6 +108,34 @@ export const generateCertificate: RequestHandler = async (req, res, next) => {
         return;
     }
 
+    // Batch mode: generate all certificates and zip
+    if (isBatch) {
+        res.setHeader('Content-Type', 'application/zip');
+        res.setHeader('Content-Disposition', `attachment; filename="${eventName.replace(/\s+/g,'_')}_certificates.zip"`);
+        const archive = archiver('zip', { zlib: { level: 9 } });
+        archive.on('error', (err) => res.status(500).send({ error: err.message }));
+        archive.pipe(res);
+        for (const pl of players) {
+            const parts = (pl as string).trim().split(' ');
+            const f = parts.shift() || '';
+            const l = parts.join(' ') || '';
+            const canvas = createCanvas(800, 600); // use template size
+            const image = await loadImage(path.join(__dirname, '..', '..', 'templates', 'certificate_template.png'));
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(image, 0, 0, image.width, image.height);
+            ctx.font = 'bold 42px "Open Sans"';
+            ctx.fillStyle = '#000';
+            ctx.textAlign = 'center';
+            ctx.fillText(`${toTitle(f)} ${toTitle(l)}`, image.width / 2, image.height / 2 + 10);
+            const buffer = canvas.toBuffer('image/png');
+            const filename = `${eventName.replace(/\s+/g,'_')}_${f}_${l}_certificate.png`;
+            archive.append(buffer, { name: filename });
+        }
+        await archive.finalize();
+        return;
+    }
+
+    // Single certificate fallback
     try {
         const templatePath = path.join(__dirname, '..', '..', 'templates', 'certificate_template.png');
         const image = await loadImage(templatePath);

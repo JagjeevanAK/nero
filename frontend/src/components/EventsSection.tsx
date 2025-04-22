@@ -48,40 +48,36 @@ const EventsSection: React.FC<EventsSectionProps> = ({
       lastName: string;
       email: string;
       phone: string;
+      players?: string[];
     }
   ) => {
     setDownloadStatus("Downloading certificate...");
 
     setDownloadError(null);
     const { firstName, lastName, email, phone } = details;
+    const players = details.players;
     try {
       const res = await fetch("/api/download-certificate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          email,
-          phone,
-          event: eventTitle,
-        }),
+        body: JSON.stringify({ firstName, lastName, email, phone, event: eventTitle, players }),
       });
       if (res.ok) {
         const blob = await res.blob();
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = `${eventTitle.replace(
-          /\s+/g,
-          "_"
-        )}_${firstName}_${lastName}_certificate.png`;
+        // use ZIP filename for batch downloads
+        const isBatch = Array.isArray(players) && players.length > 1;
+        link.download = isBatch
+          ? `${eventTitle.replace(/\s+/g, "_")}_certificates.zip`
+          : `${eventTitle.replace(/\s+/g, "_")}_${firstName}_${lastName}_certificate.png`;
         document.body.appendChild(link);
         link.click();
         link.remove();
         window.URL.revokeObjectURL(url);
         setDownloadError(null);
         setDownloadStatus(null);
-        // Removed return to allow subsequent downloads
       } else {
         const errData = await res.json().catch(() => null);
         const msg = errData?.error || "Certificate download failed";
@@ -142,32 +138,24 @@ const EventsSection: React.FC<EventsSectionProps> = ({
     setDownloadError(null);
     setDownloadStatus("Downloading certificate...");
     if (modalEvent === "Box Cricket") {
-      for (const playerName of boxPlayers) {
-        const parts = playerName.trim().split(" ");
-        const firstName = parts.shift() || "";
-        const lastName = parts.join(" ") || "";
-        await handleCertificateDownload(modalEvent, {
-          firstName,
-          lastName,
-          email: formFields.email,
-          phone: formFields.phone,
-        });
-      }
+      await handleCertificateDownload(modalEvent, {
+        firstName: formFields.firstName,
+        lastName: formFields.lastName,
+        email: formFields.email,
+        phone: formFields.phone,
+        players: boxPlayers,
+      });
       setDownloadStatus(null);
       setIsModalOpen(false);
       return;
     } else if (modalEvent === "BGMI Dominator") {
-      for (const playerName of bgmiPlayers) {
-        const parts = playerName.trim().split(" ");
-        const firstName = parts.shift() || "";
-        const lastName = parts.join(" ") || "";
-        await handleCertificateDownload(modalEvent, {
-          firstName,
-          lastName,
-          email: formFields.email,
-          phone: formFields.phone,
-        });
-      }
+      await handleCertificateDownload(modalEvent, {
+        firstName: formFields.firstName,
+        lastName: formFields.lastName,
+        email: formFields.email,
+        phone: formFields.phone,
+        players: bgmiPlayers,
+      });
       setDownloadStatus(null);
       setIsModalOpen(false);
       return; // ensure only one branch runs
