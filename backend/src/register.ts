@@ -61,8 +61,7 @@ interface RegistrationDoc extends Document {
   college: string;
   yearOfStudy: string;
   event_name: string;
-  teamMembers: string[];
-  boxCricketPlayers: string[];
+  players: string[];
   reference: string;
   paymentId: string;
   orderId: string;
@@ -78,8 +77,7 @@ const registrationSchema = new Schema<RegistrationDoc>({
   college: { type: String, required: true },
   yearOfStudy: { type: String, required: true },
   event_name: { type: String, required: true },
-  teamMembers: { type: [String], default: [] },
-  boxCricketPlayers: { type: [String], default: [] },
+  players: { type: [String], default: [] },
   reference: { type: String, default: '' },
   paymentId: { type: String, required: true },
   orderId: { type: String, required: true },
@@ -91,18 +89,17 @@ const Registration = mongoose.model<RegistrationDoc>('Registration', registratio
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
-    const { firstName, lastName, email, phone, college, yearOfStudy, event_name, teamMembers, boxCricketPlayers, reference, paymentId, orderId, signature } = req.body;
+    const { firstName, lastName, email, phone, college, yearOfStudy, event_name, players, reference, paymentId, orderId, signature } = req.body;
     const normalizedData = {
-      firstName: firstName.toLowerCase(),
-      lastName: lastName.toLowerCase(),
-      email: email.toLowerCase(),
-      phone: phone.toLowerCase(),
-      college: college.toLowerCase(),
-      yearOfStudy: yearOfStudy.toLowerCase(),
-      event_name: event_name.toLowerCase(),
-      teamMembers: (teamMembers || []).map((n: string) => n.toLowerCase()),
-      boxCricketPlayers: (boxCricketPlayers || []).map((n: string) => n.toLowerCase()),
-      reference: (reference || '').toLowerCase(),
+      firstName: firstName.trim().toLowerCase(),
+      lastName: lastName.trim().toLowerCase(),
+      email: email.trim().toLowerCase(),
+      phone: phone.trim().toLowerCase(),
+      college: college.trim().toLowerCase(),
+      yearOfStudy: yearOfStudy.trim().toLowerCase(),
+      event_name: event_name.trim().toLowerCase(),
+      players: (players || []).map((n: string) => n.trim().toLowerCase()),
+      reference: (reference || '').trim().toLowerCase(),
       paymentId,
       orderId,
       signature,

@@ -42,7 +42,7 @@ const NeuroverseMainEventDetails: React.FC = () => {
             <Gift className="w-8 h-8 text-pink-400" />
             <div>
               <div className="font-bold text-lg">Total Prizes</div>
-              <div className="text-blue-400 font-semibold text-xl">₹16,000</div>
+              <div className="text-blue-400 font-semibold text-xl">₹20,000</div>
             </div>
           </motion.div>
           <motion.div className="flex items-center gap-4 p-4 justify-center rounded-lg bg-white/5 border border-white/10 shadow-sm mx-auto w-full sm:w-80">

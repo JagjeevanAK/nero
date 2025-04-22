@@ -7,10 +7,11 @@ import {
   Route,
   useNavigate,
 } from "react-router-dom";
-import GroupDiscussionDetails from "./events/GroupDiscussionDetails";
 import BGMIDetails from "./events/BGMIDetails";
 import LinuxQuizDetails from "./events/LinuxQuizDetails";
-import TechnicalMarathonDetails from "./events/TechnicalMarathonDetails";
+import CodeMarathonDetails from "./events/CodeMarathonDetails";
+import PromptWarDetails from "./events/PromptWarDetails";
+import BoxCricketDetails from "./events/BoxCricketDetails";
 import EventsSection from "./components/EventsSection";
 import HeroSection from "./components/HeroSection";
 import NeuroverseMainEventDetails from "./components/NeuroverseMainEventDetails";
@@ -27,10 +28,11 @@ function App() {
       <HeroSection />
       <NeuroverseMainEventDetails />
       <EventsSection
-        onGDMoreDetails={() => navigate("/gd-rules")}
         onBGMIMoreDetails={() => navigate("/BGMI-rules")}
         onLinuxMoreDetails={() => navigate("/linux-rules")}
-        onTechMarathonMoreDetails={() => navigate("/technical-marathon")}
+        onCodeMarathonMoreDetails={() => navigate("/code-marathon")}
+        onPromptWarMoreDetails={() => navigate("/prompt-war")}
+        onBoxCricketMoreDetails={() => navigate("/box-cricket")}
       />
       <RegistrationSection />
       <Footer />
@@ -43,13 +45,11 @@ function AppRoutes() {
     <Router>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/gd-rules" element={<GroupDiscussionDetails />} />
         <Route path="/BGMI-rules" element={<BGMIDetails />} />
         <Route path="/linux-rules" element={<LinuxQuizDetails />} />
-        <Route
-          path="/technical-marathon"
-          element={<TechnicalMarathonDetails />}
-        />
+        <Route path="/code-marathon" element={<CodeMarathonDetails />} />
+        <Route path="/prompt-war" element={<PromptWarDetails />} />
+        <Route path="/box-cricket" element={<BoxCricketDetails />} />
       </Routes>
     </Router>
   );

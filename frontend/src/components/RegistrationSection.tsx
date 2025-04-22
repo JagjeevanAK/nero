@@ -9,9 +9,8 @@ type FormData = {
   phone: string;
   college: string;
   event: string;
-  teamMembers?: string;
   yearOfStudy: string;
-  boxCricketPlayers?: string[];
+  players?: string[];
   referenceCode?: string;
 };
 
@@ -19,28 +18,22 @@ const RegistrationSection: React.FC = () => {
 
   const currency = "INR";
   
-  // Initiates Razorpay payment using form data
   const paymentHandler = async (rawData: FormData, payload: any) => {
-    // Calculate amount in paise
     const transactionAmount = (events.find(e => e.title === rawData.event)?.fee || 0) * 100;
-    // Create order on backend
     const orderRes = await fetch("/api/order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: transactionAmount, currency, receipt: "receipt#1" })
     });
-    // Parse backend response which returns { success, order }
     const orderResult = await orderRes.json();
     const orderId = orderResult.order?.id;
     if (!orderId) {
       throw new Error('Order creation failed');
     }
-    // Prefill customer info and prepare payment options
     const customerName = `${rawData.firstName} ${rawData.lastName}`;
     const customerEmail = rawData.email;
     const customerContact = rawData.phone;
-    // Use Vite env variable for Razorpay key
-    const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID || "rzp_test_ai9fPPLJsGpjyH";
+    const RAZORPAY_KEY = import.meta.env.VITE_RAZORPAY_KEY_ID;
     const options: any = {
       key: RAZORPAY_KEY,
       amount: transactionAmount,
@@ -52,7 +45,6 @@ const RegistrationSection: React.FC = () => {
       prefill: { name: customerName, email: customerEmail, contact: customerContact },
       notes: { reference: payload.reference || '' },
       handler: async (razorpayResponse: any) => {
-        // After successful payment, submit registration
         try {
           const registerRes = await fetch("/api/register", {
             method: "POST",
@@ -62,7 +54,6 @@ const RegistrationSection: React.FC = () => {
           const result = await registerRes.json();
           if (result.success) {
             setSubmissionStatus({ message: "Registered successfully!", type: "success" });
-            // reload the page after 7 seconds
             setTimeout(() => window.location.reload(), 3000);
           } else {
             setSubmissionStatus({ message: result.error || "Registration failed.", type: "error" });
@@ -75,14 +66,12 @@ const RegistrationSection: React.FC = () => {
       },
       theme: { color: "#cc8533" }
     };
-    // Handle failure scenario
     const rzInstance = new (window as any).Razorpay(options);
     rzInstance.on('payment.failed', (response: any) => {
        const msg = response.error?.description || 'Payment failed';
        setSubmissionStatus({ message: msg, type: 'error' });
        setIsLoading(false);
     });
-    // Open Razorpay checkout
     rzInstance.open();
   };
 
@@ -107,6 +96,7 @@ const RegistrationSection: React.FC = () => {
       "Technical Marathon": "Technical Marathon",
       "Dock The Flag": "Dock The Flag",
       "Box Cricket": "Box Cricket",
+      "BGMI Dominator": "BGMI Dominator",
     };
     const event_name = eventMap[data.event] || data.event;
     const formData: any = {
@@ -120,15 +110,9 @@ const RegistrationSection: React.FC = () => {
       reference: data.referenceCode || "",
     };
 
-    if (event_name === "Box Cricket") {
-      formData.boxCricketPlayers = data.boxCricketPlayers || [];
-    }
-
-    if (data.teamMembers) {
-      formData.teamMembers = data.teamMembers
-        .split("\n")
-        .map((name) => name.trim())
-        .filter(Boolean);
+    // unify all team registrations into players array
+    if (data.players) {
+      formData.players = data.players.filter((n) => n && n.trim());
     }
 
     try {
@@ -344,7 +328,7 @@ const RegistrationSection: React.FC = () => {
                   required: "Please select an event",
                   onChange: (e) => {
                     if (e.target.value !== "Box Cricket")
-                      setValue("boxCricketPlayers", undefined);
+                      setValue("players", undefined);
                   },
                 })}
                 className="form-input bg-white/10 theme-text focus:ring-2 focus:ring-fuchsia-400"
@@ -374,53 +358,62 @@ const RegistrationSection: React.FC = () => {
               />
             </div>
           </div>
-          {/* Box Cricket Players */}
-          {selectedEvent === "Box Cricket" && (
+          {/* Players input for team events */}
+          {selectedEvent &&
+            events.find((e) => e.title === selectedEvent)?.requiresTeam && (
             <div className="bg-blue-900/10 border border-blue-400/20 rounded-xl p-4 mt-2">
               <label className="block text-base font-semibold mb-2 text-blue-300">
-                Team Members (7 Players)<span className="text-red-500">*</span>
+                {selectedEvent === "Box Cricket"
+                  ? "Team Members (7 Players)"
+                  : selectedEvent === "BGMI Dominator"
+                  ? "Team Members (4 Players)"
+                  : "Team Members"}
+                <span className="text-red-500">*</span>
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                {Array.from({ length: 7 }).map((_, idx) => (
+                {Array.from({ length:
+                  selectedEvent === "Box Cricket" ? 7 : selectedEvent === "BGMI Dominator" ? 4 : 3
+                }).map((_, idx) => (
                   <div key={idx}>
                     <input
                       className="form-input bg-white/10 theme-text placeholder:text-slate-400 focus:ring-2 focus:ring-blue-400"
-                      placeholder={`Player ${idx + 1} Name`}
-                      {...register(`boxCricketPlayers.${idx}` as const, {
+                      placeholder={`${
+                        selectedEvent === "Box Cricket" ? `Player ${idx + 1} Name` : selectedEvent === "BGMI Dominator" ? idx === 0 ? "Leader Name" : `Player ${idx + 1} Name` : `Member ${idx + 1}`
+                      }`}
+                      {...register(`players.${idx}` as const, {
                         required: "Player name is required",
-                        validate: (value) =>
-                          (value && value.trim() !== "") ||
-                          "Player name is required",
+                        validate: (value) => (value && value.trim() !== "") || "Player name is required",
                       })}
                     />
-                    {errors.boxCricketPlayers &&
-                      errors.boxCricketPlayers[idx] && (
-                        <p className="text-red-400 text-xs mt-1">
-                          {errors.boxCricketPlayers[idx]?.message as string}
-                        </p>
-                      )}
+                    {errors.players && errors.players[idx] && (
+                      <p className="text-red-400 text-xs mt-1">
+                        {errors.players[idx]?.message as string}
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>
             </div>
           )}
-          {/* Team Members for other team events */}
+          {/* Team Members textarea for other team events */}
           {selectedEvent &&
             events.find((e) => e.title === selectedEvent)?.requiresTeam &&
-            selectedEvent !== "Box Cricket" &&
-            selectedEvent !== "Technical Marathon" && (
-              <div>
-                <label className="block text-base font-semibold mb-1 theme-text-secondary">
-                  Team Members
-                </label>
-                <textarea
-                  {...register("teamMembers")}
-                  rows={3}
-                  className="form-input bg-white/10 theme-text placeholder:text-slate-400 focus:ring-2 focus:ring-fuchsia-400"
-                  placeholder="Enter team members' names (one per line)"
-                />
-              </div>
-            )}
+            !["Box Cricket", "BGMI Dominator"].includes(selectedEvent) && (
+            <div>
+              <label className="block text-base font-semibold mb-1 theme-text-secondary">
+                Team Members<span className="text-red-500">*</span>
+              </label>
+              <textarea
+                {...register("players")}
+                rows={3}
+                className="form-input bg-white/10 theme-text placeholder:text-slate-400 focus:ring-2 focus:ring-fuchsia-400"
+                placeholder="Enter team members' names, one per line"
+              />
+              {errors.players && typeof errors.players.message === 'string' && (
+                <p className="text-red-400 text-xs mt-1">{errors.players.message}</p>
+              )}
+            </div>
+          )}
           {/* Reference Code & Entry Fee Row */}
           <div className="flex justify-center mt-6">
             <div className="flex items-center justify-between bg-blue-900/20 border border-blue-400/20 rounded-xl p-4 min-w-[260px] max-w-xs w-full">

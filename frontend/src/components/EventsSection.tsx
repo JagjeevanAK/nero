@@ -3,17 +3,19 @@ import { events } from "../data/events";
 import EventCard from "./EventCard";
 
 interface EventsSectionProps {
-  onGDMoreDetails: () => void;
   onBGMIMoreDetails: () => void;
   onLinuxMoreDetails: () => void;
-  onTechMarathonMoreDetails: () => void;
+  onCodeMarathonMoreDetails: () => void;
+  onPromptWarMoreDetails: () => void;
+  onBoxCricketMoreDetails: () => void;
 }
 
 const EventsSection: React.FC<EventsSectionProps> = ({
-  onGDMoreDetails,
   onBGMIMoreDetails,
   onLinuxMoreDetails,
-  onTechMarathonMoreDetails,
+  onCodeMarathonMoreDetails,
+  onPromptWarMoreDetails,
+  onBoxCricketMoreDetails,
 }) => {
   const [downloadError, setDownloadError] = useState<string | null>(null);
   const [downloadStatus, setDownloadStatus] = useState<string | null>(null);
@@ -171,11 +173,12 @@ const EventsSection: React.FC<EventsSectionProps> = ({
           {events.map((event) => {
             const handleDetailsClick = () => {
               window.scrollTo({ top: 0, behavior: "instant" });
-              if (event.title === "Group Discussion (GD)") onGDMoreDetails();
-              else if (event.title === "BGMI") onBGMIMoreDetails();
+              if (event.title === "Prompt War") onPromptWarMoreDetails();
+              else if (event.title === "Box Cricket") onBoxCricketMoreDetails();
+              else if (event.title === "BGMI Dominator") onBGMIMoreDetails();
               else if (event.title === "Dock The Flag") onLinuxMoreDetails();
-              else if (event.title === "Technical Marathon")
-                onTechMarathonMoreDetails();
+              else if (event.title === "Code Marathon")
+                onCodeMarathonMoreDetails();
             };
             const handleDownloadClick = () => {
               fetch("/api/download-certificate", { method: "PUT" })

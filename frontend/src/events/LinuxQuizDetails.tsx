@@ -8,98 +8,75 @@ const LinuxQuizDetails: React.FC = () => (
     icon={Flag}
     accent="from-blue-500 to-purple-500"
     details={
-      <p className="mb-2 text-center">Date: 26 April 2025</p>
+      <>
+        <p className="mb-2">Date: 30 April 2025</p>
+        <p className="mb-6">
+          Kickstart your Linux security skills with hands-on workshops, a fast-paced quiz, and a CTF-style final challenge.
+        </p>
+      </>
     }
     sections={[
       {
-        title: '🧩 DockTheFlag – Event Flow',
+        title: "Workshop: Learning & Engagement",
         children: (
-          <>
-            <h3 className="text-lg font-semibold mb-2">🛠️ Workshop: Learning & Engagement Phase</h3>
-            <ul className="list-disc list-inside mb-2 theme-text-secondary">
-              <li><b>⏱️ Duration:</b> 1.5 – 2 hours</li>
-              <li><b>🎯 Objective:</b> Build a strong foundation in Linux and cybersecurity concepts.</li>
-              <li><b>📚 Format:</b>
-                <ul className="list-disc list-inside ml-6">
-                  <li>Hands-on tutorials</li>
-                  <li>Live demonstrations</li>
-                  <li>Interactive Q&A sessions</li>
-                </ul>
-              </li>
-              <li><b>🔍 Topics Covered:</b>
-                <ul className="list-disc list-inside ml-6">
-                  <li>Linux file system structure, permissions, and user management</li>
-                  <li>Useful Linux commands for system exploration</li>
-                  <li>Cybersecurity basics like file hiding and process monitoring</li>
-                </ul>
-              </li>
-            </ul>
-            <h3 className="text-lg font-semibold mb-2">🧠 Quiz Round: Linux & Security Showdown</h3>
-            <ul className="list-disc list-inside mb-2 theme-text-secondary">
-              <li><b>🎯 Objective:</b> Test your theoretical and practical knowledge in a fast-paced quiz format.</li>
-              <li><b>📊 Structure:</b>
-                <ul className="list-disc list-inside ml-6">
-                  <li>8 unique types of questions</li>
-                  <li>5 questions per type (40 total)</li>
-                  <li>1 minute per question</li>
-                  <li>Real-time leaderboard display</li>
-                </ul>
-              </li>
-              <li><b>🌀 Round Types:</b>
-                <ul className="list-disc list-inside ml-6">
-                  <li>Scenario-Based Questions</li>
-                  <li>Puzzle & Riddle Challenges</li>
-                  <li>Time-Limited Concept Tasks</li>
-                  <li>Visual & Audio Challenges</li>
-                  <li>Flash Rounds (30-sec pop-ups)</li>
-                  <li>Spot-the-Mistake (find the flaw)</li>
-                  <li>Mystery Flag (solve clues)</li>
-                  <li>Gamified Streaks (bonus for streaks)</li>
-                </ul>
-              </li>
-              <li><b>⚠️ Rules:</b>
-                <ul className="list-disc list-inside ml-6">
-                  <li>Strictly no external help</li>
-                  <li>Top scorers proceed to final round</li>
-                  <li>Tie-breaker: Time taken</li>
-                  <li>Any suspicious behavior = disqualification</li>
-                </ul>
-              </li>
-            </ul>
-            <h3 className="text-lg font-semibold mb-2">🚩 Final Round: "DockTheFlag" – The Ultimate Cyber Challenge</h3>
-            <ul className="list-disc list-inside mb-2 theme-text-secondary">
-              <li><b>🎯 Objective:</b> Hands-on test in a real Linux-based CTF environment.</li>
-              <li><b>⚙️ Format:</b>
-                <ul className="list-disc list-inside ml-6">
-                  <li>Guided CTF-style competition</li>
-                  <li>8 escalating challenges in a Docker environment</li>
-                  <li>Answers submitted through a web interface</li>
-                </ul>
-              </li>
-              <li><b>🧩 Challenge Types:</b>
-                <ul className="list-disc list-inside ml-6">
-                  <li>Hidden file discovery</li>
-                  <li>Text decoding</li>
-                  <li>System misconfiguration exploitation</li>
-                  <li>Light CTF tasks (e.g., steganography, sudo misuse)</li>
-                </ul>
-              </li>
-              <li><b>⚠️ Rules:</b>
-                <ul className="list-disc list-inside ml-6">
-                  <li>Internet restricted to the event platform</li>
-                  <li>Pre-built Docker image provided</li>
-                  <li>Solving one level unlocks the next</li>
-                  <li>Time-based scoring</li>
-                </ul>
-              </li>
-              <li><b>🏆 Winner Criteria:</b>
-                <ul className="list-disc list-inside ml-6">
-                  <li>Most flags captured</li>
-                  <li>Least time taken</li>
-                </ul>
-              </li>
-            </ul>
-          </>
+          <ul className="list-disc list-inside mb-4 theme-text-secondary">
+            <li><strong>Duration:</strong> 1.5 – 2 hours</li>
+            <li><strong>Objective:</strong> Build a strong foundation in Linux and cybersecurity concepts.</li>
+            <li><strong>Format:</strong>
+              <ul className="list-disc list-inside ml-6">
+                <li>Hands-on tutorials</li>
+                <li>Live demonstrations</li>
+                <li>Interactive Q&A sessions</li>
+              </ul>
+            </li>
+            <li><strong>Topics Covered:</strong>
+              <ul className="list-disc list-inside ml-6">
+                <li>Linux file system, permissions, and user management</li>
+                <li>Essential Linux commands for system exploration</li>
+                <li>Cybersecurity basics: file hiding and process monitoring</li>
+              </ul>
+            </li>
+          </ul>
+        )
+      },
+      {
+        title: "Quiz Round: Linux & Security Showdown",
+        children: (
+          <ul className="list-disc list-inside mb-4 theme-text-secondary">
+            <li><strong>Objective:</strong> Test theoretical and practical knowledge in a fast-paced quiz.</li>
+            <li><strong>Structure:</strong>
+              <ul className="list-disc list-inside ml-6">
+                <li>8 question types, 40 total questions</li>
+                <li>1 minute per question with real-time leaderboard</li>
+              </ul>
+            </li>
+            <li><strong>Round Types:</strong>
+              <ul className="list-disc list-inside ml-6">
+                <li>Scenario-Based</li>
+                <li>Puzzles & Riddles</li>
+                <li>Visual & Audio Challenges</li>
+                <li>Flash Rounds & Mystery Flags</li>
+              </ul>
+            </li>
+            <li><strong>Rules:</strong> No external help; tie-breaker by time; suspicious behavior disqualifies.</li>
+          </ul>
+        )
+      },
+      {
+        title: "Final Round: CTF Challenge",
+        children: (
+          <ul className="list-disc list-inside mb-4 theme-text-secondary">
+            <li><strong>Objective:</strong> Hands-on CTF in a Docker environment with 8 escalating challenges.</li>
+            <li><strong>Format:</strong>
+              <ul className="list-disc list-inside ml-6">
+                <li>CTF-style competition</li>
+                <li>Answers submitted via web interface</li>
+              </ul>
+            </li>
+            <li><strong>Challenge Types:</strong> Hidden files, text decoding, exploit tasks, steganography.</li>
+            <li><strong>Scoring & Rules:</strong> Internet restricted, one level unlocks next, time-based scoring.</li>
+            <li><strong>Winner Criteria:</strong> Most flags captured and least time taken.</li>
+          </ul>
         )
       }
     ]}

@@ -1,43 +1,49 @@
 import React from "react";
 import EventDetails from "../components/EventDetails";
-import { Trophy } from "lucide-react";
+import { Gamepad2 } from "lucide-react";
 
 const BGMIDetails: React.FC = () => (
   <EventDetails
-    title="BGMI"
-    icon={Trophy}
+    title="BGMI Dominator"
+    icon={Gamepad2}
     accent="from-blue-500 to-purple-500"
+    details={
+      <>
+        <p className="mb-2">Date: 30 April 2025</p>
+        <p className="mb-4">Venue: To be announced soon.</p>
+        <p className="mb-6">
+          A high-octane competitive eSports event for BGMI enthusiasts! Form your squad, lock and load, and battle it out to become the ultimate dominator.
+        </p>
+      </>
+    }
     sections={[
+      {
+        title: "Team Format",
+        children: (
+          <ul className="list-disc list-inside mb-4 theme-text-secondary">
+            <li>Team Squad Battle (4 players per team)</li>
+            <li>Custom room matches</li>
+            <li>Map and game mode details will be announced in advance</li>
+          </ul>
+        )
+      },
       {
         title: "Rules & Regulations",
         children: (
           <ul className="list-disc list-inside mb-4 theme-text-secondary">
-            <li>
-              The player should join the room 10 min prior to the match time.
-            </li>
-            <li>
-              All the players in the squad should be in the registered list.
-            </li>
-            <li>
-              Any suspicious activity detected then the squad will be
-              disqualified.
-            </li>
-            <li>
-              Any use of unfair means such as aimbot, trigger bot, ESP and other
-              then the squadwill be disqualified.
-            </li>
-            <li>Any game modifying tool is not allowed.</li>
-            <li>Only in game voice chat should be used while playing.</li>
-            <li>
-              Side organizers would not be held responsible for the connectivity
-              issue of the participant's.
-            </li>
-            <li>The entry fee will not be refunded under any circumstances.</li>
-            <li>The BGMI app must be in its updated version</li>
-            <li>Participants should carry their id cards</li>
+            <li>Players must join the room 10 minutes prior to the match start time.</li>
+            <li>All players in the squad must be registered; substitutes require pre-registration.</li>
+            <li>Suspicious activity (e.g., cheating, account sharing) leads to immediate disqualification.</li>
+            <li>Unfair means (aimbots, trigger bots, ESPs) are strictly prohibited.</li>
+            <li>Use of any game-modifying tool will result in disqualification.</li>
+            <li>Only in-game voice chat is permitted during gameplay.</li>
+            <li>Organizers are not responsible for participants’ internet connectivity issues.</li>
+            <li>Entry fees are non-refundable under any circumstances.</li>
+            <li>The latest updated version of BGMI must be used.</li>
+            <li>Participants must carry their ID cards for verification.</li>
           </ul>
-        ),
-      },
+        )
+      }
     ]}
     coordinator={{
       name: "Kushal Ambi",

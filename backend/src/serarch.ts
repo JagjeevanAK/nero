@@ -2,13 +2,20 @@ import { Request, Response, NextFunction } from 'express';
 import { Registration } from './register';
 
 export const checkDuplicate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const { email, event_name } = req.body;
-  const emailLower = (email as string).toLowerCase();
-  const eventLower = (event_name as string).toLowerCase();
+  const { email, event_name, phone } = req.body;
+  const emailLower = (email as string).trim().toLowerCase();
+  const eventLower = (event_name as string).trim().toLowerCase();
+  const phoneLower = (phone as string).trim().toLowerCase();
   try {
-    const existing = await Registration.findOne({ email: emailLower, event_name: eventLower });
+    const existing = await Registration.findOne({
+      event_name: eventLower,
+      $or: [
+        { email: emailLower },
+        { phone: phoneLower }
+      ]
+    });
     if (existing) {
-      res.status(409).json({ success: false, error: 'User already registered for this event' });
+      res.status(409).json({ success: false, error: 'User with this email or phone already registered for this event' });
       return;
     }
     next();
