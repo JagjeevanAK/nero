@@ -34,6 +34,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({
     phone: "",
   });
   const [boxPlayers, setBoxPlayers] = useState<string[]>(Array(7).fill(""));
+  const [bgmiPlayers, setBgmiPlayers] = useState<string[]>(Array(4).fill(""));
 
   const rawCertFlag = import.meta.env.VITE_CERTIFICATE_DOWNLOAD_ENABLED;
 
@@ -99,6 +100,7 @@ const EventsSection: React.FC<EventsSectionProps> = ({
     setFormFields({ firstName: "", lastName: "", email: "", phone: "" });
     setFormErrors({ firstName: "", lastName: "", email: "", phone: "" });
     setBoxPlayers(Array(7).fill(""));
+    setBgmiPlayers(Array(4).fill(""));
     setDownloadError(null);
     setDownloadStatus(null);
     setIsModalOpen(true);
@@ -114,6 +116,12 @@ const EventsSection: React.FC<EventsSectionProps> = ({
     };
     if (modalEvent === "Box Cricket") {
       const playerErrors = boxPlayers.map((name) => !name.trim());
+      if (playerErrors.some((err) => err)) {
+        setDownloadError("All player names are required");
+        return;
+      }
+    } else if (modalEvent === "BGMI Dominator") {
+      const playerErrors = bgmiPlayers.map((name) => !name.trim());
       if (playerErrors.some((err) => err)) {
         setDownloadError("All player names are required");
         return;
@@ -145,16 +153,28 @@ const EventsSection: React.FC<EventsSectionProps> = ({
           phone: formFields.phone,
         });
       }
+    } else if (modalEvent === "BGMI Dominator") {
+      for (const playerName of bgmiPlayers) {
+        const parts = playerName.trim().split(" ");
+        const firstName = parts.shift() || "";
+        const lastName = parts.join(" ") || "";
+        await handleCertificateDownload(modalEvent, {
+          firstName,
+          lastName,
+          email: formFields.email,
+          phone: formFields.phone,
+        });
+      }
       setDownloadStatus(null);
       setIsModalOpen(false);
-    } else {
-      handleCertificateDownload(modalEvent, {
-        firstName: formFields.firstName,
-        lastName: formFields.lastName,
-        email: formFields.email,
-        phone: formFields.phone,
-      });
+      return; // ensure only one branch runs
     }
+    handleCertificateDownload(modalEvent, {
+      firstName: formFields.firstName,
+      lastName: formFields.lastName,
+      email: formFields.email,
+      phone: formFields.phone,
+    });
   };
 
   return (
@@ -233,6 +253,29 @@ const EventsSection: React.FC<EventsSectionProps> = ({
                               const arr = [...boxPlayers];
                               arr[idx] = e.target.value;
                               setBoxPlayers(arr);
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ) : modalEvent === "BGMI Dominator" ? (
+                    <div>
+                      <label className="block text-sm font-medium mb-2">
+                        Team Members (4)<span className="text-red-500">*</span>
+                      </label>
+                      <div>
+                        {bgmiPlayers.map((player, idx) => (
+                          <input
+                            key={idx}
+                            className="form-input w-full mb-1"
+                            placeholder={
+                              idx === 0 ? "Leader Name" : `Player ${idx + 1}`
+                            }
+                            value={player}
+                            onChange={(e) => {
+                              const arr = [...bgmiPlayers];
+                              arr[idx] = e.target.value;
+                              setBgmiPlayers(arr);
                             }}
                           />
                         ))}

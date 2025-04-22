@@ -60,7 +60,8 @@ export const generateCertificate: RequestHandler = async (req, res, next) => {
         'Group Discussion (GD)': 'Group Discussion',
         'Technical Marathon': 'Technical Marathon',
         'Dock The Flag': 'Dock The Flag',
-        'Box Cricket': 'Box Cricket'
+        'Box Cricket': 'Box Cricket',
+        'BGMI Dominator': 'BGMI Dominator'
     };
     const dbEventName = eventMap[eventName] || eventName;
 
@@ -73,13 +74,26 @@ export const generateCertificate: RequestHandler = async (req, res, next) => {
         await ensureDbConnection();
 
         const baseQuery = { email: emailLower, phone: phone.toLowerCase(), event_name: dbEventName.toLowerCase() };
-        const query = eventLower === 'box cricket'
-          ? baseQuery
-          : { ...baseQuery, firstName: firstNameLower, lastName: lastNameLower };
-        const existing = await Registration.findOne(query);
+        const existing = await Registration.findOne(baseQuery);
         if (!existing) {
             res.status(404).json({ success: false, error: 'User not registered for this event' });
             return;
+        }
+        // For team events (Box Cricket & BGMI Dominator), verify member name exists
+        const isTeamEvent = ['box cricket', 'bgmi dominator'].includes(eventLower);
+        if (isTeamEvent) {
+            const fullname = `${firstNameLower} ${lastNameLower}`;
+            // players array in registration holds lowercase names
+            if (!existing.players.includes(fullname)) {
+                res.status(404).json({ success: false, error: 'Player name not found in registered team' });
+                return;
+            }
+        } else {
+            // for single events, verify name matches registration fields
+            if (existing.firstName !== firstNameLower || existing.lastName !== lastNameLower) {
+                res.status(404).json({ success: false, error: 'Name does not match registered record' });
+                return;
+            }
         }
     } catch (err) {
         console.error('Error checking registration:', err);
