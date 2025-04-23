@@ -7,15 +7,17 @@ const BGMIDetails: React.FC = () => (
     title="BGMI Dominator"
     icon={Gamepad2}
     accent="from-blue-500 to-purple-500"
-    details={
-      <>
-        <p className="mb-2">Date: 30 April 2025</p>
-        <p className="mb-6">
+  
+    sections={[
+      {
+        children: (
+          <p className="mb-6">
           A high-octane competitive eSports event for BGMI enthusiasts! Form your squad, lock and load, and battle it out to become the ultimate dominator.
         </p>
-      </>
-    }
-    sections={[
+        )
+      },
+
+
       {
         title: "Team Format",
         children: (

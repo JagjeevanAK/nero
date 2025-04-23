@@ -7,15 +7,14 @@ const CodeMarathonDetails: React.FC = () => (
     title="Code Marathon"
     icon={Terminal}
     accent="from-blue-500 to-purple-500"
-    details={
-      <>
-        <p className="mb-2">Date: 30 April 2025</p>
-        <p className="mb-6">
+    sections={[
+      {
+        children: (
+          <p className="mb-6">
           A multi-round technical treasure hunt involving coding, logic, and team strategy. Participants will progress through different levels by solving problems and uncovering clues to reach the next stage.
         </p>
-      </>
-    }
-    sections={[
+        )
+      },
       {
         title: 'Event Overview',
         children: (

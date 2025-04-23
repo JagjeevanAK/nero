@@ -7,14 +7,19 @@ const BoxCricketDetails: React.FC = () => (
         title="Box Cricket"
         icon={Gamepad2}
         accent="from-blue-500 to-purple-500"
-        details={
-          <>
-            <p className="mb-2">
+       
+        sections={[
+
+          {
+            children: (
+              <p className="mb-2">
               Fast-paced cricket. Tight boundaries. Only one team will lift the trophy! Bring your squad and swing for glory.
             </p>
-          </>
-        }
-        sections={[
+            )
+          },
+
+
+
           {
             title: "Team Composition",
             children: (

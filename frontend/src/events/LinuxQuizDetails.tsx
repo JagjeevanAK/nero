@@ -7,15 +7,19 @@ const LinuxQuizDetails: React.FC = () => (
     title="Dock The Flag"
     icon={Flag}
     accent="from-blue-500 to-purple-500"
-    details={
-      <>
-        <p className="mb-2">Date: 30 April 2025</p>
-        <p className="mb-6">
-          Kickstart your Linux security skills with hands-on workshops, a fast-paced quiz, and a CTF-style final challenge.
-        </p>
-      </>
-    }
+    
     sections={[
+
+      {
+        children: (
+          <p className="mb-6">
+          Kickstart your Linux security skills with hands-on workshops, a fast-paced quiz, and a CTF-style final challenge.
+          </p>
+        )
+      },
+
+
+
       {
         title: "Workshop: Learning & Engagement",
         children: (

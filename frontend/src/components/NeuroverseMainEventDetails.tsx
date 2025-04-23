@@ -88,12 +88,12 @@ const NeuroverseMainEventDetails: React.FC = () => {
             <li>
               <b>Student Coordinators:</b>
             </li>
-            <ul className="ml-8 list-disc">
-              <li>Pranav Patil</li>
-              <li>Jagjeevan Kashid</li>
-              <li>Yashraj Salunkhe</li>
-              <li>Gaurav Kumbare</li>
-              <li>Tanmay Patil</li>
+            <ul className="ml-8 list-none list-inside">
+              <li>Pranav Patil&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(9130867073)</li>
+              <li>Jagjeevan Kashid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(9356991651)</li>
+              <li>Yashraj Salunkhe&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(7020070701)</li>
+              <li>Gaurav Kumbare&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(7768807185)</li>
+              <li>Tanmay Patil&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(9022976013)</li>
             </ul>
           </ul>
         </motion.div>

@@ -7,15 +7,15 @@ const PromptWarDetails: React.FC = () => (
     title="Prompt War"
     icon={MessageCircle}
     accent="from-blue-500 to-purple-500"
-    details={
-      <>
-        <p className="mb-2">30 April 2025</p>
-        <p className="mb-6">
+    sections={[
+      {
+        
+        children: (
+          <p className="list-disc list-inside mb-4 theme-text-secondary">
           Put your creativity to the test—craft AI art prompts on the spot in solo and team rounds. May the best prompt win!
         </p>
-      </>
-    }
-    sections={[
+        )
+      },
       {
         title: "General Guidelines",
         children: (
