@@ -45,6 +45,7 @@ const RegistrationSection: React.FC = () => {
       prefill: { name: customerName, email: customerEmail, contact: customerContact },
       notes: { reference: payload.reference || '' },
       handler: async (razorpayResponse: any) => {
+        let success = false;
         try {
           const registerRes = await fetch("/api/register", {
             method: "POST",
@@ -53,6 +54,7 @@ const RegistrationSection: React.FC = () => {
           });
           const result = await registerRes.json();
           if (result.success) {
+            success = true;
             setSubmissionStatus({ message: "Registered successfully!", type: "success" });
             setTimeout(() => window.location.reload(), 3000);
           } else {
@@ -61,7 +63,7 @@ const RegistrationSection: React.FC = () => {
         } catch (err) {
           setSubmissionStatus({ message: "Registration failed.", type: "error" });
         } finally {
-          setIsLoading(false);
+          if (!success) setIsLoading(false);
         }
       },
       theme: { color: "#cc8533" }
@@ -119,7 +121,6 @@ const RegistrationSection: React.FC = () => {
       await paymentHandler(data, formData);
     } catch (error) {
       setSubmissionStatus({ message: "Registration failed.", type: "error" });
-    } finally {
       setIsLoading(false);
     }
   });
@@ -445,6 +446,25 @@ const RegistrationSection: React.FC = () => {
             />
           </div>
         )}
+        {/* Toast-style messages */}
+        {submissionStatus && (
+          <div className="absolute bottom-0 left-0 w-full px-8 py-4 space-y-2 z-60">
+            {submissionStatus.type === 'success' && (
+              <div className="mx-auto mb-2 p-4 rounded-xl bg-yellow-900/80 text-yellow-100 border border-yellow-400 text-sm text-center">
+                Please check your spam folder for the confirmation email. If it’s not received, mark it as not spam or contact us.
+              </div>
+            )}
+            <div
+              className={`mx-auto p-4 rounded-xl text-center font-semibold text-lg ${
+                submissionStatus.type === 'success'
+                  ? 'bg-green-900/80 text-green-100 border border-green-400'
+                  : 'bg-red-900/80 text-red-100 border border-red-400'
+              }`}
+            >
+              {submissionStatus.message}
+            </div>
+          </div>
+        )}
         {/* Info Box */}
         <div className="px-8 pb-8">
           <div className="mt-6 p-4 rounded-xl bg-gradient-to-r from-blue-900/30 via-fuchsia-900/20 to-indigo-900/30 border border-blue-400/10 text-sm theme-text-secondary flex items-center gap-3">
@@ -476,24 +496,6 @@ const RegistrationSection: React.FC = () => {
             </span>
           </div>
         </div>
-        {/* Email Caution Notice */}
-        {submissionStatus?.type === 'success' && (
-          <div className="mx-8 mb-4 p-4 rounded-xl bg-yellow-900/20 text-yellow-300 border border-yellow-400/20 text-sm text-center glass-card">
-            Please check your spam folder for the confirmation email. If it’s not received, mark it as not spam or contact us.
-          </div>
-        )}
-        {/* Submission Status */}
-        {submissionStatus && (
-          <div
-            className={`mx-8 mb-8 p-4 rounded-xl text-center font-semibold text-lg ${
-              submissionStatus.type === "success"
-                ? "bg-green-900/20 text-green-300 border border-green-400/20"
-                : "bg-red-900/20 text-red-300 border border-red-400/20"
-            } glass-card`}
-          >
-            {submissionStatus.message}
-          </div>
-        )}
       </div>
     </section>
   );
