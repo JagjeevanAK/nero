@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { Registration } from './register';
+import { Registration, connectToMongoDB } from './register';
 
 export const checkDuplicate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  await connectToMongoDB();
   const { email, event_name, phone } = req.body;
   const emailLower = (email as string).trim().toLowerCase();
   const eventLower = (event_name as string).trim().toLowerCase();

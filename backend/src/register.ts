@@ -5,52 +5,49 @@ import { sendWelcomeEmail } from './utils/mail';
 
 dotenv.config();
 
-async function connectToMongoDB() {
-  try {
-    if (mongoose.connection.readyState === 1) {
-      console.log('MongoDB connection already established');
-      return;
-    }
-    
-    await mongoose.connect(process.env.MONGO_URI as string, {
-      dbName: 'event',
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
-      maxPoolSize: 10,
-      minPoolSize: 2
-    });
-    
-    console.log('Connected to MongoDB database: event');
-    
-    mongoose.connection.on('error', (err) => {
-      console.error('MongoDB connection error:', err);
-    });
-    
-    mongoose.connection.on('disconnected', () => {
-      console.log('MongoDB disconnected');
-    });
-    
-    // Handle process termination
-    process.on('SIGINT', async () => {
-      await mongoose.connection.close();
-      console.log('MongoDB connection closed due to app termination');
-      process.exit(0);
-    });
-    
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error);
-    // Don't exit the process in serverless environment
-    if (process.env.VERCEL !== '1') {
-      process.exit(1);
-    }
-  }
+declare global {
+  var mongooseConnection: {
+    conn: typeof mongoose | null;
+    promise: Promise<typeof mongoose> | null;
+  };
 }
 
-// Export the connection function
-export { connectToMongoDB };
-
-// Initialize database connection
-connectToMongoDB();
+export async function connectToMongoDB(): Promise<typeof mongoose> {
+  if (global.mongooseConnection?.conn) {
+    return global.mongooseConnection.conn;
+  }
+  if (!global.mongooseConnection) {
+    global.mongooseConnection = { conn: null, promise: null };
+  }
+  if (!global.mongooseConnection.promise) {
+    global.mongooseConnection.promise = (async (): Promise<typeof mongoose> => {
+      mongoose.set('debug', process.env.MONGOOSE_DEBUG === 'true');
+      while (true) {
+        try {
+          const instance = await mongoose.connect(process.env.MONGO_URI as string, {
+            dbName: 'event',
+            serverSelectionTimeoutMS: 60000,
+            socketTimeoutMS: 60000,
+            connectTimeoutMS: 60000,
+            heartbeatFrequencyMS: 300000,
+            maxPoolSize: 10,
+            minPoolSize: 2,
+            retryWrites: true,
+            retryReads: true,
+            w: 'majority'
+          });
+          global.mongooseConnection!.conn = instance;
+          console.log('Connected to MongoDB database: event');
+          return instance;
+        } catch (err) {
+          console.error('MongoDB connection failed, retrying in 5s', err);
+          await new Promise(res => setTimeout(res, 5000));
+        }
+      }
+    })();
+  }
+  return global.mongooseConnection.promise as Promise<typeof mongoose>;
+}
 
 interface RegistrationDoc extends Document {
   _id: mongoose.Types.ObjectId;
@@ -85,10 +82,11 @@ const registrationSchema = new Schema<RegistrationDoc>({
   createdAt: { type: Date, default: Date.now }
 });
 
-const Registration = mongoose.model<RegistrationDoc>('Registration', registrationSchema, 'registration');
+export const Registration = mongoose.model<RegistrationDoc>('Registration', registrationSchema, 'registration');
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
+    await connectToMongoDB();
     const { firstName, lastName, email, phone, college, yearOfStudy, event_name, players, reference, paymentId, orderId, signature } = req.body;
     const normalizedData = {
       firstName: firstName.trim().toLowerCase(),
@@ -102,10 +100,24 @@ export const registerUser = async (req: Request, res: Response) => {
       reference: (reference || '').trim().toLowerCase(),
       paymentId,
       orderId,
-      signature,
+      signature
     };
     const registration = new Registration(normalizedData);
-    const saved = await registration.save();
+    let saved: RegistrationDoc | undefined;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        saved = await registration.save();
+        break;
+      } catch (saveErr) {
+        console.error(`Registration save attempt ${attempt} failed:`, saveErr);
+        if (attempt === 3) throw saveErr;
+        await new Promise(res => setTimeout(res, 1000 * attempt));
+      }
+    }
+    
+    if (!saved) {
+      throw new Error('Failed to save registration after multiple attempts');
+    }
     
     const fullName = `${saved.firstName} ${saved.lastName}`;
     await sendWelcomeEmail(
@@ -117,11 +129,9 @@ export const registerUser = async (req: Request, res: Response) => {
       saved.event_name,
       saved.college
     );
-
     res.status(201).json({ success: true, message: 'Registration successful' });
   } catch (error) {
+    console.error('Registration error:', error);
     res.status(500).json({ success: false, error: 'Failed to register user' });
   }
 };
-
-export { Registration };
