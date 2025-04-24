@@ -42,14 +42,15 @@ const BGMIDetails: React.FC = () => (
             <li>Entry fees are non-refundable under any circumstances.</li>
             <li>The latest updated version of BGMI must be used.</li>
             <li>Participants must carry their ID cards for verification.</li>
+            <li>IPad and Android Tablets are not allowed.</li>
           </ul>
         )
       }
     ]}
     coordinator={{
-      name: "Kushal Ambi",
-      phone: "9423267007",
-      email: "kushalambi14@gmail.com",
+      name: "Ronit Swamy",
+      phone: "8208980085",
+      email: "ronitswami43@gmail.com",
     }}
   />
 );
