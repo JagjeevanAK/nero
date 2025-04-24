@@ -48,7 +48,7 @@ const BGMIDetails: React.FC = () => (
       }
     ]}
     coordinator={{
-      name: "Ronit Swamy",
+      name: "Ronit Swami",
       phone: "8208980085",
       email: "ronitswami43@gmail.com",
     }}
