@@ -428,13 +428,13 @@ const RegistrationSection: React.FC = () => {
             </div>
           </div>
           {/* Submit Button */}
-          {/* <button
+          <button
             type="submit"
             disabled={isLoading}
             className="w-full btn-primary text-lg font-bold shadow-lg py-4 mt-2 hover:scale-105 transition-transform"
           >
             {isLoading ? "Processing Payment..." : "Pay & Register"}
-          </button> */}
+          </button>
         </form>
         {/* Loader overlay */}
         {isLoading && (
